@@ -4,24 +4,73 @@ import 'leaflet/dist/leaflet.css';
 
 const defaultCenter = [35.6892, 51.389];
 
+const generateHslPalette = (uniqueValues) => {
+  const n = uniqueValues.length;
+  const colorMap = {};
+  uniqueValues.forEach((val, i) => {
+    const hue = Math.round((i * 360) / n);
+    colorMap[val] = `hsl(${hue}, 70%, 50%)`;
+  });
+  return colorMap;
+};
+
 const MapComponent = ({
   width = '80vw',
   height = '60vh',
   center = defaultCenter,
   points = [],
+  valueKey = 'cellId',
+  discrete = false,
 }) => {
-  const rsrpValues = points.map((p) => parseInt(p.RSRP, 10));
-  const minRsrp = Math.min(...rsrpValues);
-  const maxRsrp = Math.max(...rsrpValues);
-  const range = maxRsrp - minRsrp || 1;
-
-  const getColorForRsrp = (rsrpString) => {
-    const value = parseInt(rsrpString, 10);
-    const t = (value - minRsrp) / range;
-    const r = Math.round((1 - t) * 255);
-    const g = Math.round(t * 255);
-    return `rgb(${r}, ${g}, 0)`;
+  const normalizeKey = (point) => {
+    const target = Object.keys(point).find(
+      (k) => k.toLowerCase() === valueKey.toLowerCase()
+    );
+    return target || valueKey;
   };
+
+  let getColorForValue;
+
+  if (discrete) {
+    const uniqueValues = [
+      ...new Set(
+        points
+          .map((p) => {
+            const k = normalizeKey(p);
+            return p[k];
+          })
+          .filter((v) => v != null)
+      ),
+    ];
+    const colorMap = generateHslPalette(uniqueValues);
+    getColorForValue = (val) => colorMap[val] || '#000';
+  } else {
+    const numericValues = points
+      .map((p) => {
+        const k = normalizeKey(p);
+        const v = p[k];
+        if (typeof v === 'string' && v.toLowerCase().includes('dbm')) {
+          return parseInt(v, 10);
+        }
+        return Number(v);
+      })
+      .filter((v) => !isNaN(v));
+    const minValue = Math.min(...numericValues);
+    const maxValue = Math.max(...numericValues);
+    const range = maxValue - minValue || 1;
+
+    getColorForValue = (val) => {
+      if (typeof val === 'string' && val.toLowerCase().includes('dbm')) {
+        val = parseInt(val, 10);
+      } else {
+        val = Number(val);
+      }
+      const t = (val - minValue) / range;
+      const r = Math.round((1 - t) * 255);
+      const g = Math.round(t * 255);
+      return `rgb(${r}, ${g}, 0)`;
+    };
+  }
 
   return (
     <Box
@@ -41,7 +90,9 @@ const MapComponent = ({
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         {points.map((point, idx) => {
-          const color = getColorForRsrp(point.RSRP);
+          const k = normalizeKey(point);
+          const value = point[k];
+          const color = getColorForValue(value);
           return (
             <CircleMarker
               key={idx}
@@ -57,7 +108,7 @@ const MapComponent = ({
                 opacity={1}
                 permanent={false}
               >
-                {`RSRP: ${point.RSRP}`}
+                {`${valueKey}: ${value}`}
               </Tooltip>
             </CircleMarker>
           );
