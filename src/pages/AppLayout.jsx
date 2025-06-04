@@ -1,12 +1,8 @@
-import { Button, HStack } from '@chakra-ui/react';
+import MapComponent from '@/components/MapComponent';
+import { sampleRouteData } from '@/mock/RSRP';
 
 function AppLayout() {
-  return (
-    <HStack>
-      <Button background={'black'}>Click me</Button>
-      <Button background={'black'}>Click me</Button>
-    </HStack>
-  );
+  return <MapComponent points={sampleRouteData} />;
 }
 
 export default AppLayout;
