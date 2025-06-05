@@ -1,10 +1,17 @@
+import { useState } from 'react';
+
 import MapComponent from '@/components/MapComponent';
 // import { sampleRouteData } from '@/mock/RSRP';
 import { CellIDData } from '@/mock/CellID';
 
 function Dashboard() {
-  return <MapComponent points={CellIDData} discrete={true} valueKey="CellID" />;
-  //   return <MapComponent points={sampleRouteData} valueKey="RSRP" />;
+  const [points, setPoints] = useState(CellIDData);
+  const [discrete, setDiscrete] = useState(true);
+  const [valueKey, setValueKey] = useState('CellID');
+
+  return (
+    <MapComponent points={points} discrete={discrete} valueKey={valueKey} />
+  );
 }
 
 export default Dashboard;
