@@ -12,7 +12,6 @@ import DataTable from '@/components/DataTable';
 function Dashboard() {
   const [selectedSessionId, setSelectedSessionId] = useState(null);
 
-  const [points, setPoints] = useState(DriveTestData);
   const [discrete, setDiscrete] = useState(false);
   const [valueKey, setValueKey] = useState('RSRP');
 
@@ -22,6 +21,7 @@ function Dashboard() {
     { id: 'cellid', label: 'Show Cell ID', checked: false },
     { id: 'lac-tac', label: 'Show LAC/TAC', checked: false },
   ]);
+
   const handleFilterChange = (selectedId) => {
     setFilters((prev) =>
       prev.map((filter) => ({
@@ -29,6 +29,20 @@ function Dashboard() {
         checked: filter.id === selectedId,
       }))
     );
+
+    if (selectedId === 'cellid') {
+      setDiscrete(true);
+      setValueKey('CellID');
+    } else if (selectedId === 'lac-tac') {
+      setDiscrete(true);
+      setValueKey('TAC');
+    } else if (selectedId === 'rsrp-rscp') {
+      setDiscrete(false);
+      setValueKey('RSRP');
+    } else if (selectedId === 'rsrq-ecn0') {
+      setDiscrete(false);
+      setValueKey('RSRQ');
+    }
   };
 
   return (
@@ -47,7 +61,7 @@ function Dashboard() {
         <Tabs.Content value="map">
           <Flex>
             <MapComponent
-              points={points}
+              points={DriveTestData}
               discrete={discrete}
               valueKey={valueKey}
             />

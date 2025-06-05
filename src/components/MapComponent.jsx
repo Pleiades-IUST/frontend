@@ -17,20 +17,19 @@ const generateHslPalette = (uniqueValues) => {
 const thresholds = {
   RSRP: { min: -110, max: -40 },
   RSRQ: { min: -20, max: -3 },
-  SINR: { min: -10, max: 30 },
 };
 
 const MapComponent = ({
   width = '60vw',
   height = '84vh',
   center = defaultCenter,
-  points = [],
-  valueKey = 'RSRP',
-  discrete = false,
+  points,
+  valueKey,
+  discrete,
 }) => {
   const normalizeKey = (point) => {
-    const target = Object.keys(point).find(
-      (k) => k.toLowerCase() === valueKey.toLowerCase()
+    const target = Object.keys(point).find((k) =>
+      k.toLowerCase().includes(valueKey.toLowerCase())
     );
     return target || valueKey;
   };
@@ -61,13 +60,17 @@ const MapComponent = ({
       const numericValues = points
         .map((p) => {
           const k = normalizeKey(p);
-          const v = p[k];
-          if (typeof v === 'string' && v.toLowerCase().includes('dbm')) {
-            return parseInt(v, 10);
+          const val = p[k];
+          if (
+            typeof val === 'string' &&
+            (val.toLowerCase().includes('dbm') ||
+              val.toLowerCase().includes('db'))
+          ) {
+            return parseInt(val, 10);
           }
-          return Number(v);
+          return Number(val);
         })
-        .filter((v) => !isNaN(v));
+        .filter((val) => !isNaN(val));
       minValue = Math.min(...numericValues);
       maxValue = Math.max(...numericValues);
     }
@@ -76,7 +79,8 @@ const MapComponent = ({
 
     getColorForValue = (val) => {
       let num =
-        typeof val === 'string' && val.toLowerCase().includes('dbm')
+        typeof val === 'string' &&
+        (val.toLowerCase().includes('dbm') || val.toLowerCase().includes('db'))
           ? parseInt(val, 10)
           : Number(val);
       if (isNaN(num)) num = minValue;
@@ -110,6 +114,8 @@ const MapComponent = ({
           const k = normalizeKey(point);
           const value = point[k];
           const color = getColorForValue(value);
+          console.log(`Point ${idx}: ${k} = ${value}, Color: ${color}`);
+
           return (
             <CircleMarker
               key={idx}

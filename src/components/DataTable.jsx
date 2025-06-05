@@ -9,6 +9,8 @@ const DataTable = ({ data }) => {
             <Table.ColumnHeader>Lat</Table.ColumnHeader>
             <Table.ColumnHeader>Long</Table.ColumnHeader>
             <Table.ColumnHeader>RSRP/RSCP</Table.ColumnHeader>
+            <Table.ColumnHeader>RSRQ/EC-N0</Table.ColumnHeader>
+            <Table.ColumnHeader>TAC/LAC</Table.ColumnHeader>
             <Table.ColumnHeader>Cell ID</Table.ColumnHeader>
           </Table.Row>
         </Table.Header>
@@ -18,7 +20,9 @@ const DataTable = ({ data }) => {
             <Table.Row key={item.id}>
               <Table.Cell>{item.lat}</Table.Cell>
               <Table.Cell>{item.lng}</Table.Cell>
-              <Table.Cell>{item.rsrp ?? item.rscp ?? 'N/A'}</Table.Cell>
+              <Table.Cell>{item.rsrp_rscp}</Table.Cell>
+              <Table.Cell>{item.rsrq_ecn0}</Table.Cell>
+              <Table.Cell>{item.tac_lac}</Table.Cell>
               <Table.Cell>{item.cellid}</Table.Cell>
             </Table.Row>
           ))}
