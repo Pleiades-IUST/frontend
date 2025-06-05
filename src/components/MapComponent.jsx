@@ -22,7 +22,7 @@ const thresholds = {
 
 const MapComponent = ({
   width = '60vw',
-  height = '90vh',
+  height = '84vh',
   center = defaultCenter,
   points = [],
   valueKey = 'RSRP',
