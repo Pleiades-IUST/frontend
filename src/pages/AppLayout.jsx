@@ -8,7 +8,7 @@ function AppLayout() {
     <>
       {/* <SidebarWithHeader /> */}
       <Navbar />
-      <Dashboard />;
+      <Dashboard />
     </>
   );
 }
