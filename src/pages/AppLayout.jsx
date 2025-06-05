@@ -1,10 +1,7 @@
-import MapComponent from '@/components/MapComponent';
-// import { sampleRouteData } from '@/mock/RSRP';
-import { CellIDData } from '@/mock/CellID';
+import Dashboard from './Dashboard';
 
 function AppLayout() {
-  return <MapComponent points={CellIDData} discrete={true} valueKey="CellID" />;
-  // return <MapComponent points={sampleRouteData} />;
+  return <Dashboard />;
 }
 
 export default AppLayout;

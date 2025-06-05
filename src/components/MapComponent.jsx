@@ -2,7 +2,7 @@ import { Box } from '@chakra-ui/react';
 import { MapContainer, TileLayer, CircleMarker, Tooltip } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 
-const defaultCenter = [35.6892, 51.389];
+const defaultCenter = [35.77, 51.38];
 
 const generateHslPalette = (uniqueValues) => {
   const n = uniqueValues.length;
