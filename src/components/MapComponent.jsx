@@ -2,7 +2,7 @@ import { Box } from '@chakra-ui/react';
 import { MapContainer, TileLayer, CircleMarker, Tooltip } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 
-const defaultCenter = [35.77, 51.38];
+const defaultCenter = [35.6892, 51.389];
 
 const generateHslPalette = (uniqueValues) => {
   const n = uniqueValues.length;
@@ -14,12 +14,18 @@ const generateHslPalette = (uniqueValues) => {
   return colorMap;
 };
 
+const thresholds = {
+  RSRP: { min: -110, max: -40 },
+  RSRQ: { min: -20, max: -3 },
+  SINR: { min: -10, max: 30 },
+};
+
 const MapComponent = ({
-  width = '80vw',
-  height = '60vh',
+  width = '60vw',
+  height = '90vh',
   center = defaultCenter,
   points = [],
-  valueKey = 'cellId',
+  valueKey = 'RSRP',
   discrete = false,
 }) => {
   const normalizeKey = (point) => {
@@ -45,27 +51,38 @@ const MapComponent = ({
     const colorMap = generateHslPalette(uniqueValues);
     getColorForValue = (val) => colorMap[val] || '#000';
   } else {
-    const numericValues = points
-      .map((p) => {
-        const k = normalizeKey(p);
-        const v = p[k];
-        if (typeof v === 'string' && v.toLowerCase().includes('dbm')) {
-          return parseInt(v, 10);
-        }
-        return Number(v);
-      })
-      .filter((v) => !isNaN(v));
-    const minValue = Math.min(...numericValues);
-    const maxValue = Math.max(...numericValues);
+    const threshold = thresholds[valueKey] || {};
+    const hasThreshold = threshold.min != null && threshold.max != null;
+
+    let minValue = threshold.min;
+    let maxValue = threshold.max;
+
+    if (!hasThreshold) {
+      const numericValues = points
+        .map((p) => {
+          const k = normalizeKey(p);
+          const v = p[k];
+          if (typeof v === 'string' && v.toLowerCase().includes('dbm')) {
+            return parseInt(v, 10);
+          }
+          return Number(v);
+        })
+        .filter((v) => !isNaN(v));
+      minValue = Math.min(...numericValues);
+      maxValue = Math.max(...numericValues);
+    }
+
     const range = maxValue - minValue || 1;
 
     getColorForValue = (val) => {
-      if (typeof val === 'string' && val.toLowerCase().includes('dbm')) {
-        val = parseInt(val, 10);
-      } else {
-        val = Number(val);
-      }
-      const t = (val - minValue) / range;
+      let num =
+        typeof val === 'string' && val.toLowerCase().includes('dbm')
+          ? parseInt(val, 10)
+          : Number(val);
+      if (isNaN(num)) num = minValue;
+      if (num < minValue) num = minValue;
+      if (num > maxValue) num = maxValue;
+      const t = (num - minValue) / range;
       const r = Math.round((1 - t) * 255);
       const g = Math.round(t * 255);
       return `rgb(${r}, ${g}, 0)`;
