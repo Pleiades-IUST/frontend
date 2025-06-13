@@ -1,6 +1,5 @@
 import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Flex, Box, Input, Button, Heading, Text } from '@chakra-ui/react';
 import AuthContext from '@/contexts/AuthContext';
 
 export default function Login() {
@@ -16,45 +15,88 @@ export default function Login() {
   };
 
   return (
-    <Flex align="center" justify="center" height="100vh">
-      <Box
-        p={8}
-        maxWidth="400px"
-        borderWidth={1}
-        borderRadius={8}
-        boxShadow="lg"
-      >
-        <Heading mb={6}>Log In</Heading>
-        <form onSubmit={handleSubmit}>
-          <Input
+    <div style={styles.fullScreenContainer}>
+      <div style={styles.loginBox}>
+        <h2 style={styles.heading}>Log In</h2>
+        <form onSubmit={handleSubmit} style={styles.form}>
+          <input
+            type="email"
             placeholder="Email"
-            mb={3}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            style={styles.input}
           />
-          <Input
+          <input
             type="password"
             placeholder="Password"
-            mb={6}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            style={styles.input}
           />
-          <Button type="submit" width="full">
+          <button type="submit" style={styles.button}>
             Log In
-          </Button>
+          </button>
         </form>
-        <Text mt={4} textAlign="center">
+        <p style={styles.text}>
           Don't have an account?{' '}
-          <Text
-            as="span"
-            color="blue.500"
-            cursor="pointer"
-            onClick={() => navigate('/signup')}
-          >
+          <span style={styles.link} onClick={() => navigate('/signup')}>
             Sign Up
-          </Text>
-        </Text>
-      </Box>
-    </Flex>
+          </span>
+        </p>
+      </div>
+    </div>
   );
 }
+
+const styles = {
+  fullScreenContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '100vh', // full screen height
+    width: '100vw', // full screen width
+    backgroundColor: '#f0f2f5',
+  },
+  loginBox: {
+    backgroundColor: '#fff',
+    padding: '2rem',
+    borderRadius: '8px',
+    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+    width: '100%',
+    maxWidth: '400px',
+  },
+  heading: {
+    textAlign: 'center',
+    marginBottom: '1.5rem',
+  },
+  form: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  input: {
+    padding: '0.75rem',
+    marginBottom: '1rem',
+    border: '1px solid #ccc',
+    borderRadius: '4px',
+    fontSize: '1rem',
+  },
+  button: {
+    padding: '0.75rem',
+    backgroundColor: '#3182ce',
+    color: '#fff',
+    border: 'none',
+    borderRadius: '4px',
+    fontSize: '1rem',
+    cursor: 'pointer',
+  },
+  text: {
+    textAlign: 'center',
+    marginTop: '1rem',
+    fontSize: '0.95rem',
+  },
+  link: {
+    color: '#3182ce',
+    cursor: 'pointer',
+    textDecoration: 'underline',
+  },
+};
