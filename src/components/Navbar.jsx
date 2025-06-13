@@ -1,25 +1,40 @@
 import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import AuthContext from '@/contexts/AuthContext';
 import './Navbar.css';
 
 export default function Navbar() {
   const { user, logout } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/login'); // redirect after logout
+  };
+
   return (
     <nav className="navbar">
-      <div className="logo">MyApp</div>
-      <div className="links">
-        {user ? (
-          <>
-            <span>Welcome, {user.email}</span>
-            <button onClick={logout}>Logout</button>
-          </>
-        ) : (
-          <>
-            <Link to="/login">Login</Link>
-            <Link to="/signup">Sign Up</Link>
-          </>
-        )}
+      <div className="navbar-content">
+        <div className="navbar-logo">MyApp</div>
+        <div className="navbar-links">
+          {user ? (
+            <>
+              <span className="welcome-text">Welcome, {user.email}</span>
+              <button className="btn logout-btn" onClick={handleLogout}>
+                Logout
+              </button>
+            </>
+          ) : (
+            <>
+              <Link to="/login" className="nav-link">
+                Login
+              </Link>
+              <Link to="/signup" className="nav-link">
+                Sign Up
+              </Link>
+            </>
+          )}
+        </div>
       </div>
     </nav>
   );
