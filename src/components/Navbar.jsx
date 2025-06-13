@@ -6,6 +6,7 @@ import './Navbar.css';
 export default function Navbar() {
   const { user, logout } = useContext(AuthContext);
   const navigate = useNavigate();
+  const username = localStorage.getItem('username');
 
   const handleLogout = () => {
     logout();
@@ -15,11 +16,11 @@ export default function Navbar() {
   return (
     <nav className="navbar">
       <div className="navbar-content">
-        <div className="navbar-logo">MyApp</div>
+        <div className="navbar-logo">pleiades</div>
         <div className="navbar-links">
           {user ? (
             <>
-              <span className="welcome-text">Welcome, {user.username}</span>
+              <span className="welcome-text">Welcome, {username}</span>
               <button className="btn logout-btn" onClick={handleLogout}>
                 Logout
               </button>
