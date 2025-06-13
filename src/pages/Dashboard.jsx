@@ -1,15 +1,15 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Flex, Tabs } from '@chakra-ui/react';
 
 import MapComponent from '@/components/MapComponent';
 import Sessions from '@/components/Sessions';
 import Filters from '@/components/Filters';
 import { DriveTestData1, DriveTestData2, DriveTestData3 } from '@/mock/Data';
-import { sessionsData } from '@/mock/Sessions';
 import DataTable from '@/components/DataTable';
 
 function Dashboard() {
-  const [selectedSessionId, setSelectedSessionId] = useState('sess1');
+  const [sessions, setSessions] = useState([]);
+  const [selectedSessionId, setSelectedSessionId] = useState(null);
   const [discrete, setDiscrete] = useState(false);
   const [valueKey, setValueKey] = useState('RSRP');
   const [filters, setFilters] = useState([
@@ -19,12 +19,31 @@ function Dashboard() {
     { id: 'lac-tac', label: 'Show LAC/TAC', checked: false },
   ]);
 
+  useEffect(() => {
+    const fetchSessions = async () => {
+      try {
+        const res = await fetch('http://localhost:8080/drive/all');
+        const data = await res.json();
+        setSessions(data);
+
+        // Automatically select the first session
+        if (data.length > 0) {
+          setSelectedSessionId(data[0].id);
+        }
+      } catch (err) {
+        console.error('Failed to fetch sessions:', err);
+      }
+    };
+
+    fetchSessions();
+  }, []);
+
   let Data;
-  if (selectedSessionId === 'sess1') {
+  if (selectedSessionId === 1) {
     Data = DriveTestData1;
-  } else if (selectedSessionId === 'sess2') {
+  } else if (selectedSessionId === 2) {
     Data = DriveTestData2;
-  } else if (selectedSessionId === 'sess3') {
+  } else if (selectedSessionId === 3) {
     Data = DriveTestData3;
   } else {
     Data = [];
@@ -56,7 +75,7 @@ function Dashboard() {
   return (
     <Flex>
       <Sessions
-        sessions={sessionsData}
+        sessions={sessions}
         selectedSessionId={selectedSessionId}
         setSession={setSelectedSessionId}
       />

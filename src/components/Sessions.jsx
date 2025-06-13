@@ -15,6 +15,7 @@ const Sessions = ({ sessions, selectedSessionId, setSession }) => {
             onClick={() => setSession(session.id)}
           >
             {session.name}
+            <p>{session.created_at}</p>
           </li>
         ))}
       </ul>
