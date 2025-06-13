@@ -1,28 +1,26 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { Link } from 'react-router-dom';
+import AuthContext from '@/contexts/AuthContext';
 import './Navbar.css';
 
-const Navbar = () => {
+export default function Navbar() {
+  const { user, logout } = useContext(AuthContext);
   return (
     <nav className="navbar">
-      <div className="navbar-content">
-        <div className="navbar-logo">🚀 Pleiades</div>
-        <ul className="navbar-links">
-          <li>
-            <a href="#">Home</a>
-          </li>
-          <li>
-            <a href="#">Features</a>
-          </li>
-          <li>
-            <a href="#">Pricing</a>
-          </li>
-          <li>
-            <a href="#">Contact</a>
-          </li>
-        </ul>
+      <div className="logo">MyApp</div>
+      <div className="links">
+        {user ? (
+          <>
+            <span>Welcome, {user.email}</span>
+            <button onClick={logout}>Logout</button>
+          </>
+        ) : (
+          <>
+            <Link to="/login">Login</Link>
+            <Link to="/signup">Sign Up</Link>
+          </>
+        )}
       </div>
     </nav>
   );
-};
-
-export default Navbar;
+}
