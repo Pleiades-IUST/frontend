@@ -19,7 +19,7 @@ export default function Navbar() {
         <div className="navbar-links">
           {user ? (
             <>
-              <span className="welcome-text">Welcome, {user.email}</span>
+              <span className="welcome-text">Welcome, {user.username}</span>
               <button className="btn logout-btn" onClick={handleLogout}>
                 Logout
               </button>

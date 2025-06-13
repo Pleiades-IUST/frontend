@@ -7,21 +7,33 @@ export default function Login() {
   const [password, setPassword] = useState('');
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
+  const [error, setError] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await login({ email, password });
-    navigate('/');
+    setError(null);
+
+    const success = await login({ email, password });
+
+    if (success) {
+      navigate('/');
+    } else {
+      setError('Invalid username or password');
+    }
   };
 
   return (
     <div style={styles.fullScreenContainer}>
       <div style={styles.loginBox}>
-        <h2 style={styles.heading}>Log In</h2>
+        <h2 style={styles.heading}>Welcome Back 👋</h2>
+        <p style={styles.subheading}>Please log in to your account</p>
+
+        {error && <div style={styles.errorBox}>{error}</div>}
+
         <form onSubmit={handleSubmit} style={styles.form}>
           <input
-            type="email"
-            placeholder="Email"
+            type="text"
+            placeholder="Username"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             style={styles.input}
@@ -53,21 +65,31 @@ const styles = {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    height: '100vh', // full screen height
-    width: '100vw', // full screen width
-    backgroundColor: '#f0f2f5',
+    height: '100vh',
+    width: '100vw',
+    backgroundColor: '#edf2f7',
   },
   loginBox: {
     backgroundColor: '#fff',
-    padding: '2rem',
-    borderRadius: '8px',
-    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+    padding: '2.5rem',
+    borderRadius: '12px',
+    boxShadow: '0 8px 30px rgba(0, 0, 0, 0.05)',
     width: '100%',
-    maxWidth: '400px',
+    maxWidth: '420px',
+    transition: 'box-shadow 0.3s ease-in-out',
   },
   heading: {
     textAlign: 'center',
+    marginBottom: '0.5rem',
+    fontSize: '1.75rem',
+    fontWeight: '600',
+    color: '#2d3748',
+  },
+  subheading: {
+    textAlign: 'center',
     marginBottom: '1.5rem',
+    fontSize: '0.95rem',
+    color: '#718096',
   },
   form: {
     display: 'flex',
@@ -76,27 +98,42 @@ const styles = {
   input: {
     padding: '0.75rem',
     marginBottom: '1rem',
-    border: '1px solid #ccc',
-    borderRadius: '4px',
+    border: '1px solid #cbd5e0',
+    borderRadius: '6px',
     fontSize: '1rem',
+    outline: 'none',
+    transition: 'border-color 0.2s',
   },
   button: {
     padding: '0.75rem',
     backgroundColor: '#3182ce',
     color: '#fff',
     border: 'none',
-    borderRadius: '4px',
+    borderRadius: '6px',
     fontSize: '1rem',
+    fontWeight: '500',
     cursor: 'pointer',
+    transition: 'background-color 0.2s ease-in-out',
   },
   text: {
     textAlign: 'center',
-    marginTop: '1rem',
+    marginTop: '1.5rem',
     fontSize: '0.95rem',
+    color: '#4a5568',
   },
   link: {
     color: '#3182ce',
     cursor: 'pointer',
     textDecoration: 'underline',
+  },
+  errorBox: {
+    backgroundColor: '#ffe5e5',
+    color: '#b00020',
+    border: '1px solid #f5c2c2',
+    padding: '0.75rem 1rem',
+    borderRadius: '6px',
+    marginBottom: '1rem',
+    fontSize: '0.95rem',
+    textAlign: 'center',
   },
 };
