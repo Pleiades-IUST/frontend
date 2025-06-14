@@ -92,11 +92,11 @@ const DataTable = ({ data }) => {
       case 'upload_rate':
         return `${value.toFixed(2)} Mbps`;
       case 'ping':
-        return `${value.toFixed(2)} ms`;
-      case 'signal_strength':
-        return `${value} dBm`;
       case 'sms_delivery_time':
         return `${value} ms`;
+      case 'signal_strength':
+      case 'rsrp':
+        return `${value} dBm`;
       default:
         return value;
     }
@@ -154,6 +154,63 @@ const DataTable = ({ data }) => {
           <p className="no-data-subtitle">
             Select a session to view detailed data
           </p>
+        </div>
+        {/* Render pagination even when no data or single page for consistency */}
+        <div className="pagination">
+          <button
+            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+            disabled={currentPage === 1}
+            className="pagination-btn"
+          >
+            ← Previous
+          </button>
+
+          <div className="pagination-info">
+            <span className="page-numbers">
+              {/* Only render page buttons if totalPages > 0 */}
+              {totalPages > 0 ? (
+                Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                  let pageNum;
+                  if (totalPages <= 5) {
+                    pageNum = i + 1;
+                  } else if (currentPage <= 3) {
+                    pageNum = i + 1;
+                  } else if (currentPage >= totalPages - 2) {
+                    pageNum = totalPages - 4 + i;
+                  } else {
+                    pageNum = currentPage - 2 + i;
+                  }
+
+                  return (
+                    <button
+                      key={pageNum}
+                      onClick={() => setCurrentPage(pageNum)}
+                      className={`page-btn ${currentPage === pageNum ? 'active' : ''}`}
+                    >
+                      {pageNum}
+                    </button>
+                  );
+                })
+              ) : (
+                <span className="page-btn active">1</span>
+              )}{' '}
+              {/* Show page 1 if no pages */}
+            </span>
+            <span className="pagination-text">
+              Page {currentPage} of {totalPages === 0 ? 1 : totalPages}{' '}
+              {/* Show '1' if totalPages is 0 */}
+            </span>
+          </div>
+
+          <button
+            onClick={() =>
+              setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+            }
+            disabled={currentPage === totalPages || totalPages === 0}
+            className="pagination-btn"
+          >
+            Next →
+          </button>
         </div>
       </div>
     );
@@ -269,20 +326,21 @@ const DataTable = ({ data }) => {
         </table>
       </div>
 
-      {/* Pagination */}
-      {totalPages > 1 && (
-        <div className="pagination">
-          <button
-            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-            disabled={currentPage === 1}
-            className="pagination-btn"
-          >
-            ← Previous
-          </button>
+      {/* Pagination - Always visible now */}
+      <div className="pagination">
+        <button
+          onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+          disabled={currentPage === 1}
+          className="pagination-btn"
+        >
+          ← Previous
+        </button>
 
-          <div className="pagination-info">
-            <span className="page-numbers">
-              {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+        <div className="pagination-info">
+          <span className="page-numbers">
+            {/* Render page numbers as before */}
+            {totalPages > 0 ? (
+              Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
                 let pageNum;
                 if (totalPages <= 5) {
                   pageNum = i + 1;
@@ -303,24 +361,27 @@ const DataTable = ({ data }) => {
                     {pageNum}
                   </button>
                 );
-              })}
-            </span>
-            <span className="pagination-text">
-              Page {currentPage} of {totalPages}
-            </span>
-          </div>
-
-          <button
-            onClick={() =>
-              setCurrentPage((prev) => Math.min(prev + 1, totalPages))
-            }
-            disabled={currentPage === totalPages}
-            className="pagination-btn"
-          >
-            Next →
-          </button>
+              })
+            ) : (
+              <span className="page-btn active">1</span>
+            )}{' '}
+            {/* Show page 1 if totalPages is 0 */}
+          </span>
+          <span className="pagination-text">
+            Page {currentPage} of {totalPages === 0 ? 1 : totalPages}
+          </span>
         </div>
-      )}
+
+        <button
+          onClick={() =>
+            setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+          }
+          disabled={currentPage === totalPages || totalPages === 0} // Disable if no pages
+          className="pagination-btn"
+        >
+          Next →
+        </button>
+      </div>
     </div>
   );
 };

@@ -210,6 +210,13 @@ html,
     padding: 0.6rem 1rem;
   }
   .dashboard-tab-content {
-    padding: 1rem;
+    /* padding: 1rem; */
+    flex: 1;
+    padding: 2rem; /* Increased padding for content */
+    overflow: hidden; /* Change from overflow-y: auto; and overflow-x: hidden; */
+    height: calc(
+      100% - 7vh
+    ); /* Height of content area minus tabs list height */
+    background-color: #ffffff; /* Ensure content background is white */
   }
 }
