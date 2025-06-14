@@ -1,33 +1,123 @@
 .filters-sidebar {
-  width: 20vw; /* تغییر داده‌شده از 10vw به 20vw */
+  width: 300px;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-left: 1px solid #e0e0e0;
   height: 84vh;
-  background: linear-gradient(180deg, #1e293b, #0f172a);
-  color: white;
-  padding: 1rem;
-  display: flex;
-  flex-direction: column;
-  font-family: sans-serif;
-  border-left: 1px solid rgba(255, 255, 255, 0.1);
+  overflow-y: auto;
+  box-shadow: -2px 0 4px rgba(0, 0, 0, 0.1);
 }
 
 .filters-title {
-  font-size: 1.2rem;
-  font-weight: bold;
-  margin-bottom: 1rem;
-  text-align: center;
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: #333;
+  border-bottom: 2px solid #007bff;
+  padding-bottom: 8px;
+}
+
+.filter-section {
+  margin-bottom: 25px;
+}
+
+.filter-section-title {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #555;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .checkbox-group {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
-  overflow-y: auto;
+  gap: 8px;
 }
 
 .checkbox-item {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  font-size: 0.95rem;
+  gap: 8px;
+  font-size: 14px;
+  color: #333;
   cursor: pointer;
+  padding: 6px 8px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.checkbox-item:hover {
+  background-color: #e9ecef;
+}
+
+.checkbox-item input[type='radio'] {
+  width: 16px;
+  height: 16px;
+  accent-color: #007bff;
+  cursor: pointer;
+}
+
+.checkbox-item input[type='radio']:checked + span {
+  font-weight: 500;
+  color: #007bff;
+}
+
+.filter-legend {
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid #ddd;
+}
+
+.legend-item {
+  margin-bottom: 12px;
+}
+
+.legend-item span {
+  font-size: 12px;
+  color: #666;
+  display: block;
+  margin-top: 4px;
+}
+
+.legend-color-bar {
+  width: 100%;
+  height: 12px;
+  border-radius: 6px;
+  margin-bottom: 4px;
+}
+
+.signal-gradient {
+  background: linear-gradient(to right, #ff0000, #ffff00, #00ff00);
+}
+
+.latency-gradient {
+  background: linear-gradient(to right, #00ff00, #ffff00, #ff0000);
+}
+
+.throughput-gradient {
+  background: linear-gradient(to right, #0000ff, #800080, #ff0000);
+}
+
+/* Responsive design */
+@media (max-width: 1200px) {
+  .filters-sidebar {
+    width: 250px;
+  }
+}
+
+@media (max-width: 768px) {
+  .filters-sidebar {
+    width: 200px;
+    padding: 15px;
+  }
+
+  .filters-title {
+    font-size: 16px;
+  }
+
+  .checkbox-item {
+    font-size: 13px;
+  }
 }

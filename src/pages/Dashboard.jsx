@@ -6,18 +6,52 @@ import MapComponent from '@/components/MapComponent';
 import Sessions from '@/components/Sessions';
 import Filters from '@/components/Filters';
 import DataTable from '@/components/DataTable';
+import Charts from '@/components/Charts'; // Import the new Charts component
 
 function Dashboard() {
   const [sessions, setSessions] = useState([]);
   const [selectedSessionId, setSelectedSessionId] = useState(null);
   const [driveData, setDriveData] = useState([]);
   const [discrete, setDiscrete] = useState(false);
-  const [valueKey, setValueKey] = useState('rsrp_rscp');
+  const [valueKey, setValueKey] = useState('rsrp');
   const [filters, setFilters] = useState([
-    { id: 'rsrp-rscp', label: 'Show RSRP/RSCP', checked: true },
-    { id: 'rsrq-ecn0', label: 'Show RSRQ/Ec-N0', checked: false },
-    { id: 'cellid', label: 'Show Cell ID', checked: false },
-    { id: 'lac-tac', label: 'Show LAC/TAC', checked: false },
+    { id: 'rsrp', label: 'Show RSRP (dBm)', checked: true, type: 'continuous' },
+    { id: 'rsrq', label: 'Show RSRQ (dB)', checked: false, type: 'continuous' },
+    {
+      id: 'signal_strength',
+      label: 'Show Signal Strength',
+      checked: false,
+      type: 'continuous',
+    },
+    {
+      id: 'download_rate',
+      label: 'Show Download Rate',
+      checked: false,
+      type: 'continuous',
+    },
+    {
+      id: 'upload_rate',
+      label: 'Show Upload Rate',
+      checked: false,
+      type: 'continuous',
+    },
+    { id: 'ping', label: 'Show Ping (ms)', checked: false, type: 'continuous' },
+    {
+      id: 'sms_delivery_time',
+      label: 'Show SMS Delivery Time',
+      checked: false,
+      type: 'continuous',
+    },
+    {
+      id: 'technology',
+      label: 'Show Technology',
+      checked: false,
+      type: 'discrete',
+    },
+    { id: 'cellid', label: 'Show Cell ID', checked: false, type: 'discrete' },
+    { id: 'tac_lac', label: 'Show TAC', checked: false, type: 'discrete' },
+    { id: 'pci', label: 'Show PCI', checked: false, type: 'discrete' },
+    { id: 'plmn_id', label: 'Show PLMN ID', checked: false, type: 'discrete' },
   ]);
 
   // Fetch list of drives
@@ -44,23 +78,28 @@ function Dashboard() {
       })
       .then((response) => {
         const data = response.data;
+
         const transformed = data.map((item) => ({
           id: item.id,
           lat: item.latitude ?? 35.735069274902344,
           lng: item.longitude ?? 51.52555465698242,
-          rsrp_rscp: `${item.rsrp} dbm`,
-          rsrq_ecn0: `${item.rsrq} dB`,
-          cellid: item.cell_id,
-          tac_lac: item.tac,
-          plmn_id: item.plmn_id,
-          technology: item.technology,
+          // Keep original values for filtering
+          rsrp: item.rsrp,
+          rsrq: item.rsrq,
           signal_strength: item.signal_strength,
           download_rate: item.download_rate,
           upload_rate: item.upload_rate,
-          dns_lookup_time: item.dns_lookup_time,
           ping: item.ping,
           sms_delivery_time: item.sms_delivery_time,
+          technology: item.technology,
+          cellid: item.cell_id,
+          tac_lac: item.tac,
           pci: item.pci,
+          plmn_id: item.plmn_id,
+          // Keep formatted versions for display
+          rsrp_rscp: item.rsrp ? `${item.rsrp} dbm` : 'N/A',
+          rsrq_ecn0: `${item.rsrq} dB`,
+          dns_lookup_time: item.dns_lookup_time,
           record_time: item.record_time,
         }));
         setDriveData(transformed);
@@ -76,22 +115,10 @@ function Dashboard() {
       prev.map((filter) => ({ ...filter, checked: filter.id === selectedId }))
     );
 
-    switch (selectedId) {
-      case 'cellid':
-        setDiscrete(true);
-        setValueKey('cellid');
-        break;
-      case 'lac-tac':
-        setDiscrete(true);
-        setValueKey('tac_lac');
-        break;
-      case 'rsrq-ecn0':
-        setDiscrete(false);
-        setValueKey('rsrq_ecn0');
-        break;
-      default:
-        setDiscrete(false);
-        setValueKey('rsrp_rscp');
+    const selectedFilter = filters.find((f) => f.id === selectedId);
+    if (selectedFilter) {
+      setDiscrete(selectedFilter.type === 'discrete');
+      setValueKey(selectedId);
     }
   };
 
@@ -106,6 +133,7 @@ function Dashboard() {
       <Tabs.Root defaultValue="map">
         <Tabs.List h="6vh">
           <Tabs.Trigger value="map">Map</Tabs.Trigger>
+          <Tabs.Trigger value="charts">Charts</Tabs.Trigger>
           <Tabs.Trigger value="table">Table</Tabs.Trigger>
         </Tabs.List>
 
@@ -118,6 +146,10 @@ function Dashboard() {
             />
             <Filters filters={filters} onFilterChange={handleFilterChange} />
           </Flex>
+        </Tabs.Content>
+
+        <Tabs.Content value="charts">
+          <Charts data={driveData} />
         </Tabs.Content>
 
         <Tabs.Content value="table">

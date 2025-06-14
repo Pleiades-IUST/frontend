@@ -8,8 +8,45 @@ import {
 } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import { useMemo } from 'react';
-
 const defaultCenter = [35.6892, 51.389];
+
+const getDisplayName = (key) => {
+  const displayNames = {
+    rsrp: 'RSRP (dBm)',
+    rsrq: 'RSRQ (dB)',
+    signal_strength: 'Signal Strength (dBm)',
+    download_rate: 'Download Rate (Mbps)',
+    upload_rate: 'Upload Rate (Mbps)',
+    ping: 'Ping (ms)',
+    sms_delivery_time: 'SMS Delivery (ms)',
+    technology: 'Technology',
+    cellid: 'Cell ID',
+    tac_lac: 'TAC',
+    pci: 'PCI',
+    plmn_id: 'PLMN ID',
+  };
+
+  return displayNames[key] || key.toUpperCase();
+};
+
+const formatValue = (value, key) => {
+  if (value === null || value === undefined) return 'N/A';
+
+  switch (key) {
+    case 'rsrp':
+    case 'rsrq':
+    case 'signal_strength':
+      return `${value} dBm`;
+    case 'download_rate':
+    case 'upload_rate':
+      return `${Number(value).toFixed(2)} Mbps`;
+    case 'ping':
+    case 'sms_delivery_time':
+      return `${value} ms`;
+    default:
+      return value;
+  }
+};
 
 const generateHslPalette = (uniqueValues) => {
   const n = uniqueValues.length;
@@ -22,8 +59,13 @@ const generateHslPalette = (uniqueValues) => {
 };
 
 const thresholds = {
-  RSRP: { min: -110, max: -40 },
-  RSRQ: { min: -20, max: -3 },
+  rsrp: { min: -120, max: -60 },
+  rsrq: { min: -20, max: -3 },
+  signal_strength: { min: -120, max: -60 },
+  download_rate: { min: 0, max: 500 },
+  upload_rate: { min: 0, max: 200 },
+  ping: { min: 0, max: 1000 },
+  sms_delivery_time: { min: 0, max: 2000 },
 };
 
 const PointsLayer = ({ points, valueKey, discrete, normalizeKey }) => {
@@ -36,7 +78,7 @@ const PointsLayer = ({ points, valueKey, discrete, normalizeKey }) => {
               const k = normalizeKey(p);
               return p[k];
             })
-            .filter((v) => v != null)
+            .filter((v) => v != null && v !== undefined)
         ),
       ];
       return generateHslPalette(uniqueValues);
@@ -58,18 +100,17 @@ const PointsLayer = ({ points, valueKey, discrete, normalizeKey }) => {
         .map((p) => {
           const k = normalizeKey(p);
           const val = p[k];
-          if (
-            typeof val === 'string' &&
-            (val.toLowerCase().includes('dbm') ||
-              val.toLowerCase().includes('db'))
-          ) {
-            return parseInt(val, 10);
-          }
           return Number(val);
         })
-        .filter((val) => !isNaN(val));
-      minValue = Math.min(...numericValues);
-      maxValue = Math.max(...numericValues);
+        .filter((val) => !isNaN(val) && val !== null && val !== undefined);
+
+      if (numericValues.length > 0) {
+        minValue = Math.min(...numericValues);
+        maxValue = Math.max(...numericValues);
+      } else {
+        minValue = 0;
+        maxValue = 1;
+      }
     }
 
     return { min: minValue, max: maxValue };
@@ -78,20 +119,38 @@ const PointsLayer = ({ points, valueKey, discrete, normalizeKey }) => {
   const getColorForValue = (val) => {
     if (discrete) return colorMap[val] || '#000';
 
+    // Handle null values
+    if (val === null || val === undefined) return '#888';
+
     const range = max - min || 1;
-    let num =
-      typeof val === 'string' &&
-      (val.toLowerCase().includes('dbm') || val.toLowerCase().includes('db'))
-        ? parseInt(val, 10)
-        : Number(val);
+    let num = Number(val);
     if (isNaN(num)) num = min;
     if (num < min) num = min;
     if (num > max) num = max;
 
     const t = (num - min) / range;
-    const r = Math.round((1 - t) * 255);
-    const g = Math.round(t * 255);
-    return `rgb(${r}, ${g}, 0)`;
+
+    // Use different color schemes based on the metric type
+    if (
+      valueKey === 'rsrp' ||
+      valueKey === 'rsrq' ||
+      valueKey === 'signal_strength'
+    ) {
+      // For signal metrics: red (bad) to green (good)
+      const r = Math.round((1 - t) * 255);
+      const g = Math.round(t * 255);
+      return `rgb(${r}, ${g}, 0)`;
+    } else if (valueKey === 'ping' || valueKey === 'sms_delivery_time') {
+      // For latency metrics: green (low) to red (high)
+      const r = Math.round(t * 255);
+      const g = Math.round((1 - t) * 255);
+      return `rgb(${r}, ${g}, 0)`;
+    } else {
+      // For throughput metrics: blue to red scale
+      const r = Math.round(t * 255);
+      const b = Math.round((1 - t) * 255);
+      return `rgb(${r}, 0, ${b})`;
+    }
   };
 
   return (
@@ -116,7 +175,29 @@ const PointsLayer = ({ points, valueKey, discrete, normalizeKey }) => {
               opacity={1}
               permanent={false}
             >
-              {`${valueKey}: ${value}`}
+              <div>
+                <div>
+                  <strong>{getDisplayName(valueKey)}:</strong>{' '}
+                  {formatValue(value, valueKey)}
+                </div>
+                <div>
+                  <strong>Technology:</strong> {point.technology}
+                </div>
+                <div>
+                  <strong>Signal Strength:</strong> {point.signal_strength} dBm
+                </div>
+                <div>
+                  <strong>Cell ID:</strong> {point.cellid}
+                </div>
+                <div>
+                  <strong>Location:</strong> {point.lat?.toFixed(6)},{' '}
+                  {point.lng?.toFixed(6)}
+                </div>
+                <div>
+                  <strong>Time:</strong>{' '}
+                  {new Date(point.record_time).toLocaleTimeString()}
+                </div>
+              </div>
             </Tooltip>
           </CircleMarker>
         );
@@ -134,6 +215,12 @@ const MapComponent = ({
   discrete,
 }) => {
   const normalizeKey = (point) => {
+    // Direct mapping for exact matches
+    if (Object.prototype.hasOwnProperty.call(point, valueKey)) {
+      return valueKey;
+    }
+
+    // Fallback to fuzzy matching
     const target = Object.keys(point).find((k) =>
       k.toLowerCase().includes(valueKey.toLowerCase())
     );
