@@ -1,0 +1,215 @@
+/* Dashboard.css - Enriched Light Theme */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body,
+html,
+#root {
+  height: 100%;
+  width: 100%;
+  overflow: hidden; /* Prevent body scroll, let dashboard manage its scroll */
+  font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #f0f4f8; /* A very soft, cool blue-grey for the overall background */
+}
+
+/* Overall Dashboard Container */
+.dashboard-container {
+  display: flex;
+  height: calc(100vh - 10vh); /* Full viewport height minus Navbar height */
+  background-color: #f5f8fc; /* A slightly lighter shade of the body background */
+  overflow: hidden; /* Ensure no scrollbars on the main container itself */
+  width: 100vw;
+}
+
+/* Main Content Area (Tabs.Root) */
+.main-content-area {
+  flex: 1; /* Allows it to take all remaining horizontal space */
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff; /* Keep main content pane white for crispness */
+  border-radius: 16px; /* Slightly more rounded for a softer look */
+  margin: 2rem; /* Increased margin for more breathing room */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); /* A slightly stronger, softer shadow for depth */
+  overflow: hidden; /* Hide overflow from inner components if they exceed bounds */
+  border: 1px solid #e2e8f0; /* Subtle border to define the panel */
+}
+
+/* Tabs List (Tab Headers) */
+.dashboard-tabs-list {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 0 2.5rem; /* Increased padding */
+  height: 7vh; /* Slightly taller for more presence */
+  border-bottom: 1px solid #e9ecef; /* A slightly darker, crisp border */
+  background-color: #fefeff; /* Almost white, but distinct from content area */
+  border-top-left-radius: 16px; /* Match container rounded corners */
+  border-top-right-radius: 16px;
+  flex-shrink: 0;
+}
+
+/* Individual Tab Trigger (Tab Button) */
+.dashboard-tab-trigger {
+  padding: 1rem 1.8rem; /* More generous padding */
+  font-size: 1.05rem; /* Slightly larger font */
+  font-weight: 600;
+  color: #778899; /* A professional slate grey for default tabs */
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+  border-radius: 10px; /* More rounded */
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.dashboard-tab-trigger:hover {
+  color: #4682b4; /* Steel blue on hover for a calming effect */
+  background-color: #e6f0f7; /* Soft blue on hover background */
+}
+
+.dashboard-tab-trigger[data-state='active'] {
+  color: #007bff; /* Primary blue for active tab (unchanged, good contrast) */
+  background-color: #ffffff; /* White background for active tab */
+  box-shadow: 0 -3px 10px rgba(0, 0, 0, 0.04); /* More subtle active tab shadow */
+  border-bottom: 3px solid #007bff; /* Highlight active tab with a blue line */
+  border-radius: 10px 10px 0 0; /* Match new rounding */
+  transform: translateY(-3px); /* Slightly more pronounced lift */
+  z-index: 1;
+}
+
+/* Tabs Content Area */
+.dashboard-tab-content {
+  flex: 1;
+  padding: 2rem; /* Increased padding for content */
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: calc(100% - 7vh); /* Height of content area minus tabs list height */
+  background-color: #ffffff; /* Ensure content background is white */
+}
+
+/* Flex container for Map and Filters within the Map tab */
+.map-filters-flex {
+  display: flex;
+  gap: 2rem; /* More space between Map and Filters */
+  height: 100%;
+}
+
+/* General component styling for Map, Charts, DataTable, Filters */
+.map-filters-flex > div,
+.charts-tab-content > div,
+.table-tab-content > div {
+  background-color: #fefefe; /* Very light, almost white background for inner cards */
+  border-radius: 12px; /* Consistent rounded corners */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); /* Slightly more prominent shadow for inner cards */
+  padding: 1.5rem; /* Increased internal padding */
+  border: 1px solid #edf2f7; /* Very subtle light grey border */
+}
+
+.map-filters-flex > div:first-child {
+  /* Map Component */
+  flex: 3;
+}
+
+.map-filters-flex > div:last-child {
+  /* Filters Component */
+  flex: 1;
+  min-width: 280px; /* Ensure filters have enough space */
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .main-content-area {
+    margin: 1.5rem;
+  }
+  .dashboard-tabs-list {
+    padding: 0 1.5rem;
+  }
+  .dashboard-tab-trigger {
+    padding: 0.9rem 1.4rem;
+    font-size: 1rem;
+  }
+  .map-filters-flex {
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard-container {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .main-content-area {
+    margin: 1rem;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  }
+
+  .dashboard-tabs-list {
+    flex-wrap: wrap;
+    justify-content: center;
+    height: auto;
+    padding: 0.8rem;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+  }
+
+  .dashboard-tab-trigger {
+    padding: 0.7rem 1.2rem;
+    font-size: 0.95rem;
+    margin: 0.3rem;
+    border-radius: 8px;
+  }
+
+  .dashboard-tab-trigger[data-state='active'] {
+    transform: none;
+    border-bottom: 2px solid #007bff; /* Slightly thinner active border */
+  }
+
+  .dashboard-tab-content {
+    padding: 1.5rem;
+    height: auto;
+  }
+
+  .map-filters-flex {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .map-filters-flex > div:first-child,
+  .map-filters-flex > div:last-child {
+    flex: none;
+    width: 100%;
+    min-width: unset;
+  }
+
+  .map-filters-flex > div,
+  .charts-tab-content > div,
+  .table-tab-content > div {
+    padding: 1rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard-container {
+    height: 100%;
+  }
+  .main-content-area {
+    margin: 0.5rem;
+  }
+  .dashboard-tab-trigger {
+    font-size: 0.8rem;
+    padding: 0.6rem 1rem;
+  }
+  .dashboard-tab-content {
+    padding: 1rem;
+  }
+}

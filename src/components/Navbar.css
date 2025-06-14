@@ -9,85 +9,137 @@
 .navbar {
   height: 10vh;
   width: 100vw;
-  background: linear-gradient(90deg, #4e54c8, #8f94fb);
+  /* Modern, subtle background - soft grey with a hint of blue */
+  background: linear-gradient(90deg, #f0f2f5, #e6e9ed);
   display: flex;
   justify-content: center;
   align-items: center;
   position: sticky;
   top: 0;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  /* Softer, more diffused shadow */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   z-index: 1000;
+  /* Add a subtle border bottom for definition */
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 /* Inner content wrapper */
 .navbar-content {
   width: 90%;
-  max-width: 1200px;
+  max-width: 1400px; /* Slightly wider for more spacious feel */
   display: flex;
   justify-content: space-between;
   align-items: center;
-  color: #fff;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  /* Darker text for better contrast on light background */
+  color: #333;
+  /* Modern, clean font stack */
+  font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
 }
 
 /* Logo styling */
 .navbar-logo {
-  font-size: 1.8rem;
-  font-weight: 700;
-  letter-spacing: 1.5px;
+  font-size: 2rem; /* Slightly larger for prominence */
+  font-weight: 800; /* Bolder for impact */
+  letter-spacing: 2px; /* Increased letter spacing */
   cursor: default;
   user-select: none;
+  /* Add a subtle text shadow or gradient for depth */
+  background: linear-gradient(
+    45deg,
+    #007bff,
+    #0056b3
+  ); /* Blue gradient for logo */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
 }
 
 /* Links container */
 .navbar-links {
   display: flex;
   align-items: center;
-  gap: 1.5rem;
+  gap: 2rem; /* Increased gap for more breathing room */
 }
 
 /* General nav link styles */
 .nav-link {
-  color: #fff;
+  color: #555; /* Softer dark grey for links */
   font-weight: 600;
   font-size: 1.05rem;
   text-decoration: none;
-  padding: 0.4rem 0.6rem;
-  border-radius: 4px;
+  padding: 0.6rem 1rem; /* More generous padding */
+  border-radius: 8px; /* Slightly more rounded corners */
   transition:
     background-color 0.3s ease,
-    transform 0.2s ease;
+    color 0.3s ease,
+    transform 0.2s ease,
+    box-shadow 0.3s ease; /* Added shadow transition */
 }
 
 .nav-link:hover {
-  background-color: rgba(255, 255, 255, 0.2);
-  transform: scale(1.05);
+  background-color: #e0e5ea; /* Lighter background on hover */
+  color: #007bff; /* Primary blue color on hover */
+  transform: translateY(-2px); /* Subtle lift effect */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Gentle shadow on hover */
 }
 
 /* Welcome text */
 .welcome-text {
   font-weight: 500;
-  font-size: 1rem;
-  margin-right: 1rem;
+  font-size: 1.05rem; /* Slightly larger */
+  color: #444; /* Darker welcome text */
+  margin-right: 1.5rem; /* More space */
   white-space: nowrap;
 }
 
 /* Logout button */
 .btn {
-  padding: 0.4rem 1rem;
-  font-size: 1rem;
+  padding: 0.7rem 1.4rem; /* More padding for a substantial button */
+  font-size: 1.05rem; /* Consistent font size */
   font-weight: 600;
-  color: #4e54c8;
-  background-color: #fff;
+  color: #fff; /* White text on button */
+  background-color: #007bff; /* Primary brand blue */
   border: none;
-  border-radius: 4px;
+  border-radius: 8px; /* Consistent rounded corners */
   cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 123, 255, 0.2); /* Shadow with primary color tint */
   transition:
     background-color 0.3s ease,
-    transform 0.2s ease;
+    transform 0.2s ease,
+    box-shadow 0.3s ease;
 }
 
 .logout-btn:hover {
-  background-color: #f0f0f0;
-  transform: scale(1.05);
+  background-color: #0056b3; /* Darker blue on hover */
+  transform: translateY(-2px); /* Subtle lift effect */
+  box-shadow: 0 6px 12px rgba(0, 123, 255, 0.3); /* Enhanced shadow on hover */
+}
+
+/* Responsive adjustments (optional, but good practice for improved styles) */
+@media (max-width: 768px) {
+  .navbar-content {
+    flex-direction: column; /* Stack logo and links on smaller screens */
+    padding: 1rem 0; /* Add vertical padding */
+    gap: 1rem; /* Space between stacked elements */
+  }
+
+  .navbar {
+    height: auto; /* Auto height when content stacks */
+    padding: 1rem 0;
+  }
+
+  .navbar-links {
+    flex-wrap: wrap; /* Allow links to wrap */
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  .navbar-logo {
+    margin-bottom: 0.5rem; /* Space below logo */
+  }
+
+  .welcome-text {
+    margin-right: 0; /* Remove right margin when stacked */
+    margin-bottom: 0.5rem; /* Add bottom margin for spacing */
+  }
 }

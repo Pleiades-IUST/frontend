@@ -1,123 +1,246 @@
+/* Filters.css - Beautiful Light Theme with Hidden Scrollbar */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 .filters-sidebar {
-  width: 300px;
-  padding: 20px;
-  background-color: #f8f9fa;
-  border-left: 1px solid #e0e0e0;
-  height: 84vh;
-  overflow-y: auto;
-  box-shadow: -2px 0 4px rgba(0, 0, 0, 0.1);
+  /* Inherit background from main content area to blend seamlessly */
+  background-color: #fefefe; /* A very light, almost white background for consistency */
+  border-radius: 12px; /* Match outer container's border-radius */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); /* Soft, subtle shadow */
+  border: 1px solid #edf2f7; /* Very subtle light grey border */
+  padding: 2rem 1.5rem; /* More balanced padding */
+  width: 300px; /* Keep default width as defined in Dashboard.jsx's flex */
+  min-width: 280px; /* Ensure it doesn't get too small */
+  height: 100%; /* Take full height of its flex parent (map-filters-flex) */
+  overflow-y: auto; /* Allow content to scroll */
+  overflow-x: hidden;
+
+  /* Hide scrollbar for Firefox */
+  scrollbar-width: none;
+}
+
+/* Hide scrollbar for Webkit browsers (Chrome, Safari, Edge) */
+.filters-sidebar::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
+}
+
+.filters-sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.filters-sidebar::-webkit-scrollbar-thumb {
+  background: transparent;
 }
 
 .filters-title {
-  font-size: 18px;
-  font-weight: 600;
-  margin-bottom: 20px;
-  color: #333;
-  border-bottom: 2px solid #007bff;
-  padding-bottom: 8px;
+  font-size: 1.6rem; /* Larger, more impactful title */
+  font-weight: 700;
+  margin-bottom: 25px; /* More space */
+  color: #333333; /* Darker text for good contrast */
+  border-bottom: 2px solid #007bff; /* Primary blue underline */
+  padding-bottom: 10px; /* More padding below line */
+  font-family: 'Inter', sans-serif; /* Consistent font */
+  text-align: center; /* Center the title */
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05); /* Subtle text shadow */
 }
 
 .filter-section {
-  margin-bottom: 25px;
+  margin-bottom: 30px; /* Increased spacing between sections */
+  padding-bottom: 15px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05); /* Subtle separator */
+}
+
+.filter-section:last-of-type {
+  border-bottom: none; /* No border for the last section */
 }
 
 .filter-section-title {
-  font-size: 14px;
+  font-size: 0.95rem; /* Slightly larger title */
   font-weight: 600;
-  margin-bottom: 12px;
-  color: #555;
+  margin-bottom: 15px; /* More space */
+  color: #555555; /* Soft grey */
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.8px; /* Slightly increased letter spacing */
+  font-family: 'Inter', sans-serif;
 }
 
 .checkbox-group {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px; /* Increased gap between items */
 }
 
 .checkbox-item {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-size: 14px;
-  color: #333;
+  gap: 12px; /* More space between radio and text */
+  font-size: 0.9rem; /* Slightly larger font */
+  color: #444444; /* Darker grey for better readability */
   cursor: pointer;
-  padding: 6px 8px;
-  border-radius: 4px;
-  transition: background-color 0.2s ease;
+  padding: 8px 12px; /* More generous padding */
+  border-radius: 8px; /* More rounded */
+  transition:
+    background-color 0.25s ease,
+    transform 0.1s ease; /* Softer transition */
 }
 
 .checkbox-item:hover {
-  background-color: #e9ecef;
+  background-color: #e6f0f7; /* Soft blue hover background */
+  transform: translateX(4px); /* Subtle slide effect on hover */
 }
 
 .checkbox-item input[type='radio'] {
-  width: 16px;
-  height: 16px;
-  accent-color: #007bff;
+  width: 18px; /* Slightly larger radio button */
+  height: 18px;
+  accent-color: #007bff; /* Primary blue accent color */
   cursor: pointer;
+  border: 2px solid #b0c4de; /* Softer border for radio */
+  border-radius: 50%; /* Ensure it's perfectly round */
+  outline: none; /* Remove default outline */
+  transition: all 0.2s ease;
 }
 
-.checkbox-item input[type='radio']:checked + span {
-  font-weight: 500;
-  color: #007bff;
+.checkbox-item input[type='radio']:checked {
+  border-color: #007bff; /* Blue border when checked */
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2); /* Soft glow around checked radio */
+}
+
+.checkbox-item input[type='radio']:checked + .checkbox-label {
+  font-weight: 600; /* Bolder text when checked */
+  color: #007bff; /* Primary blue text when checked */
+}
+
+/* Use a span for the label to allow better styling when input is adjacent */
+.checkbox-item span {
+  flex: 1; /* Allows label to take available space */
 }
 
 .filter-legend {
-  margin-top: 30px;
-  padding-top: 20px;
-  border-top: 1px solid #ddd;
+  margin-top: 35px; /* More space from previous section */
+  padding-top: 25px; /* More padding above line */
+  border-top: 1px solid #e9ecef; /* Consistent border style */
 }
 
 .legend-item {
-  margin-bottom: 12px;
+  margin-bottom: 15px; /* More space between legend items */
+  display: flex; /* Use flex for better alignment */
+  align-items: center;
+  gap: 10px; /* Space between color bar and text */
 }
 
 .legend-item span {
-  font-size: 12px;
-  color: #666;
-  display: block;
-  margin-top: 4px;
+  font-size: 0.85rem; /* Slightly larger text */
+  color: #666666; /* Consistent medium grey */
+  font-family: 'Inter', sans-serif;
+  line-height: 1.4; /* Better readability */
 }
 
 .legend-color-bar {
-  width: 100%;
-  height: 12px;
-  border-radius: 6px;
-  margin-bottom: 4px;
+  width: 80px; /* More defined width */
+  height: 14px; /* Slightly taller */
+  border-radius: 7px; /* More rounded ends */
+  flex-shrink: 0; /* Prevent shrinking in flex context */
 }
 
 .signal-gradient {
-  background: linear-gradient(to right, #ff0000, #ffff00, #00ff00);
+  background: linear-gradient(
+    to right,
+    #ff6b6b,
+    #ffe66d,
+    #6bff6b
+  ); /* More vibrant red, yellow, green */
 }
 
 .latency-gradient {
-  background: linear-gradient(to right, #00ff00, #ffff00, #ff0000);
+  background: linear-gradient(
+    to right,
+    #6bff6b,
+    #ffe66d,
+    #ff6b6b
+  ); /* More vibrant green, yellow, red */
 }
 
 .throughput-gradient {
-  background: linear-gradient(to right, #0000ff, #800080, #ff0000);
+  background: linear-gradient(
+    to right,
+    #6a5acd,
+    #4682b4,
+    #ff6b6b
+  ); /* Royal blue, steel blue, vibrant red */
 }
 
 /* Responsive design */
 @media (max-width: 1200px) {
   .filters-sidebar {
     width: 250px;
+    padding: 1.5rem 1rem;
+    min-width: 240px;
+  }
+  .filters-title {
+    font-size: 1.4rem;
+  }
+  .checkbox-item {
+    font-size: 0.85rem;
   }
 }
 
 @media (max-width: 768px) {
   .filters-sidebar {
-    width: 200px;
-    padding: 15px;
+    width: 100%; /* Take full width when stacked */
+    height: auto; /* Adjust height based on content */
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
   }
 
   .filters-title {
-    font-size: 16px;
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+  }
+
+  .filter-section {
+    margin-bottom: 25px;
+  }
+
+  .filter-section-title {
+    font-size: 0.9rem;
+    margin-bottom: 12px;
+  }
+
+  .checkbox-group {
+    gap: 8px;
   }
 
   .checkbox-item {
-    font-size: 13px;
+    font-size: 0.8rem;
+    padding: 6px 10px;
+  }
+
+  .legend-item span {
+    font-size: 0.8rem;
+  }
+
+  .legend-color-bar {
+    width: 60px;
+    height: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .filters-sidebar {
+    padding: 1rem;
+  }
+  .filters-title {
+    font-size: 1.1rem;
+  }
+  .checkbox-item {
+    font-size: 0.75rem;
+  }
+  .legend-item span {
+    font-size: 0.7rem;
   }
 }

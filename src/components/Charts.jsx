@@ -79,7 +79,52 @@ const Charts = ({ data }) => {
     }));
   }, [chartData]);
 
-  // Calculate statistics
+  // Calculate overall session statistics
+  const sessionStats = useMemo(() => {
+    if (chartData.length === 0) return {};
+
+    const calcStats = (values) => {
+      const validValues = values.filter(
+        (v) => v !== null && v !== undefined && v > 0
+      );
+      if (validValues.length === 0) return { avg: 0, min: 0, max: 0, count: 0 };
+
+      return {
+        avg: validValues.reduce((a, b) => a + b, 0) / validValues.length,
+        min: Math.min(...validValues),
+        max: Math.max(...validValues),
+        count: validValues.length,
+      };
+    };
+
+    const downloadStats = calcStats(chartData.map((d) => d.download_rate));
+    const uploadStats = calcStats(chartData.map((d) => d.upload_rate));
+    const pingStats = calcStats(chartData.map((d) => d.ping));
+
+    // Get session duration
+    const times = chartData.map((d) => d.fullTime).filter(Boolean);
+    const sessionDuration =
+      times.length > 1
+        ? Math.round((Math.max(...times) - Math.min(...times)) / 1000 / 60)
+        : 0;
+
+    // Get unique locations count
+    const uniqueLocations = new Set(chartData.map((d) => d.location)).size;
+
+    return {
+      download: downloadStats,
+      upload: uploadStats,
+      ping: pingStats,
+      sessionDuration,
+      uniqueLocations,
+      totalSamples: chartData.length,
+      avgSignalStrength: chartData
+        .filter((d) => d.signal_strength)
+        .reduce((sum, d, _, arr) => sum + d.signal_strength / arr.length, 0),
+    };
+  }, [chartData]);
+
+  // Calculate statistics for current tab
   const stats = useMemo(() => {
     if (chartData.length === 0) return {};
 
@@ -206,7 +251,7 @@ const Charts = ({ data }) => {
 
   return (
     <div className="charts-container">
-      {/* Header with session info */}
+      {/* Enhanced Header with session info */}
       <div className="charts-header">
         <div className="session-info">
           <h2 className="charts-title">Performance Analytics</h2>
@@ -214,17 +259,54 @@ const Charts = ({ data }) => {
             {chartData.length} data points collected
           </p>
         </div>
+
+        {/* Session Overview Cards */}
+        <div className="session-overview">
+          <div className="overview-card">
+            <div className="overview-icon">⏱️</div>
+            <div className="overview-content">
+              <div className="overview-label">Session Duration</div>
+              <div className="overview-value">
+                {sessionStats.sessionDuration || 0} min
+              </div>
+            </div>
+          </div>
+
+          <div className="overview-card">
+            <div className="overview-icon">📍</div>
+            <div className="overview-content">
+              <div className="overview-label">Locations</div>
+              <div className="overview-value">
+                {sessionStats.uniqueLocations || 0}
+              </div>
+            </div>
+          </div>
+
+          <div className="overview-card">
+            <div className="overview-icon">📶</div>
+            <div className="overview-content">
+              <div className="overview-label">Avg Signal</div>
+              <div className="overview-value">
+                {sessionStats.avgSignalStrength
+                  ? `${sessionStats.avgSignalStrength.toFixed(0)} dBm`
+                  : 'N/A'}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Technology Distribution */}
         <div className="technology-summary">
           <div className="tech-pie-container">
             <h3 className="pie-title">Technology Distribution</h3>
-            <ResponsiveContainer width={200} height={120}>
+            <ResponsiveContainer width={280} height={160}>
               <PieChart>
                 <Pie
                   data={technologyData}
                   cx="50%"
                   cy="50%"
-                  innerRadius={25}
-                  outerRadius={50}
+                  innerRadius={35}
+                  outerRadius={65}
                   paddingAngle={2}
                   dataKey="value"
                 >
@@ -247,6 +329,40 @@ const Charts = ({ data }) => {
                   </span>
                 </div>
               ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Quick Stats Summary */}
+        <div className="quick-stats">
+          <h3 className="quick-stats-title">Session Highlights</h3>
+          <div className="quick-stats-grid">
+            <div className="quick-stat">
+              <span className="quick-stat-icon">📥</span>
+              <div className="quick-stat-content">
+                <div className="quick-stat-value">
+                  {sessionStats.download?.avg?.toFixed(1) || '0'} Mbps
+                </div>
+                <div className="quick-stat-label">Avg Download</div>
+              </div>
+            </div>
+            <div className="quick-stat">
+              <span className="quick-stat-icon">📤</span>
+              <div className="quick-stat-content">
+                <div className="quick-stat-value">
+                  {sessionStats.upload?.avg?.toFixed(1) || '0'} Mbps
+                </div>
+                <div className="quick-stat-label">Avg Upload</div>
+              </div>
+            </div>
+            <div className="quick-stat">
+              <span className="quick-stat-icon">🏓</span>
+              <div className="quick-stat-content">
+                <div className="quick-stat-value">
+                  {sessionStats.ping?.avg?.toFixed(0) || '0'} ms
+                </div>
+                <div className="quick-stat-label">Avg Ping</div>
+              </div>
             </div>
           </div>
         </div>

@@ -1,12 +1,15 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Flex, Tabs } from '@chakra-ui/react';
+import { Flex, Tabs } from '@chakra-ui/react'; // Assuming Chakra UI components are available
 
 import MapComponent from '@/components/MapComponent';
 import Sessions from '@/components/Sessions';
 import Filters from '@/components/Filters';
 import DataTable from '@/components/DataTable';
-import Charts from '@/components/Charts'; // Import the new Charts component
+import Charts from '@/components/Charts';
+
+// Import the new Dashboard CSS
+import './Dashboard.css';
 
 function Dashboard() {
   const [sessions, setSessions] = useState([]);
@@ -123,22 +126,31 @@ function Dashboard() {
   };
 
   return (
-    <Flex>
+    <Flex className="dashboard-container">
       <Sessions
         sessions={sessions}
         selectedSessionId={selectedSessionId}
         setSession={setSelectedSessionId}
       />
 
-      <Tabs.Root defaultValue="map">
-        <Tabs.List h="6vh">
-          <Tabs.Trigger value="map">Map</Tabs.Trigger>
-          <Tabs.Trigger value="charts">Charts</Tabs.Trigger>
-          <Tabs.Trigger value="table">Table</Tabs.Trigger>
+      <Tabs.Root defaultValue="map" className="main-content-area">
+        <Tabs.List className="dashboard-tabs-list">
+          <Tabs.Trigger value="map" className="dashboard-tab-trigger">
+            Map
+          </Tabs.Trigger>
+          <Tabs.Trigger value="charts" className="dashboard-tab-trigger">
+            Charts
+          </Tabs.Trigger>
+          <Tabs.Trigger value="table" className="dashboard-tab-trigger">
+            Table
+          </Tabs.Trigger>
         </Tabs.List>
 
-        <Tabs.Content value="map">
-          <Flex>
+        <Tabs.Content
+          value="map"
+          className="dashboard-tab-content map-tab-content"
+        >
+          <Flex className="map-filters-flex">
             <MapComponent
               points={driveData}
               discrete={discrete}
@@ -148,11 +160,17 @@ function Dashboard() {
           </Flex>
         </Tabs.Content>
 
-        <Tabs.Content value="charts">
+        <Tabs.Content
+          value="charts"
+          className="dashboard-tab-content charts-tab-content"
+        >
           <Charts data={driveData} />
         </Tabs.Content>
 
-        <Tabs.Content value="table">
+        <Tabs.Content
+          value="table"
+          className="dashboard-tab-content table-tab-content"
+        >
           <DataTable data={driveData} />
         </Tabs.Content>
       </Tabs.Root>

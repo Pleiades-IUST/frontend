@@ -1,0 +1,532 @@
+/* Table Container */
+.table-container {
+  width: 1200px;
+  height: 84vh;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  overflow-y: auto;
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header Section - Made more compact */
+.table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 1.5rem 2rem 1rem 2rem; /* Reduced top padding */
+  background: white;
+  border-bottom: 1px solid #e2e8f0;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+  flex-shrink: 0;
+}
+
+.header-info {
+  flex: 1;
+}
+
+.table-title {
+  font-size: 1.75rem; /* Reduced from 2rem */
+  font-weight: 700;
+  color: #1a202c;
+  margin: 0 0 0.25rem 0; /* Reduced bottom margin */
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.table-subtitle {
+  color: #64748b;
+  margin: 0;
+  font-size: 0.875rem; /* Reduced from 1rem */
+}
+
+.header-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem; /* Reduced from 0.5rem */
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem; /* Reduced from 0.875rem */
+  color: #64748b;
+}
+
+.stat-icon {
+  font-size: 0.875rem; /* Reduced from 1rem */
+}
+
+/* No Data State */
+.no-data-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 60vh;
+  text-align: center;
+}
+
+.no-data-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  opacity: 0.6;
+}
+
+.no-data-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #374151;
+  margin: 0 0 0.5rem 0;
+}
+
+.no-data-subtitle {
+  color: #64748b;
+  margin: 0;
+}
+
+/* Controls Section - Made more compact */
+.table-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem; /* Reduced from 1.5rem */
+  background: white;
+  border-bottom: 1px solid #e2e8f0;
+  flex-shrink: 0;
+}
+
+.search-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex: 1;
+  max-width: 400px;
+}
+
+.search-icon {
+  position: absolute;
+  left: 1rem;
+  color: #64748b;
+  z-index: 1;
+  pointer-events: none; /* Prevent icon from blocking input */
+}
+
+.search-input {
+  width: 100%;
+  padding: 0.625rem 1rem 0.625rem 2.5rem; /* Reduced padding */
+  border: 2px solid #e2e8f0;
+  border-radius: 0.75rem;
+  font-size: 0.875rem;
+  transition: all 0.3s ease;
+  background: white; /* Changed from #f8fafc to white for better text visibility */
+  color: #374151; /* Explicit text color for better visibility */
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #667eea;
+  background: white;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.search-input::placeholder {
+  color: #9ca3af; /* Ensure placeholder is visible */
+}
+
+.search-clear {
+  position: absolute;
+  right: 0.75rem;
+  background: none;
+  border: none;
+  color: #64748b;
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+  z-index: 2;
+}
+
+.search-clear:hover {
+  background: #f1f5f9;
+  color: #374151;
+}
+
+.pagination-controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.items-per-page {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem; /* Reduced from 0.875rem */
+  color: #64748b;
+  font-weight: 500;
+}
+
+.items-select {
+  padding: 0.375rem 0.625rem; /* Reduced padding */
+  border: 2px solid #e2e8f0;
+  border-radius: 0.5rem;
+  font-size: 0.8rem; /* Reduced from 0.875rem */
+  background: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.items-select:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+/* Table Wrapper */
+.table-wrapper {
+  flex: 1;
+  overflow: auto;
+  background: white;
+  margin: 0 2rem;
+  border-radius: 1rem 1rem 0 0;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+/* Table Styles - Made more compact */
+.data-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: white;
+}
+
+.data-table thead {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.data-table th {
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  border-bottom: 2px solid #e2e8f0;
+  padding: 0.75rem 1rem; /* Reduced from 1rem 1.5rem */
+  text-align: left;
+  font-weight: 600;
+  color: #374151;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+  position: relative;
+}
+
+.data-table th:hover {
+  background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+}
+
+.data-table th.sorted {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem; /* Reduced from 0.5rem */
+  min-width: max-content;
+}
+
+.header-icon {
+  font-size: 0.875rem; /* Reduced from 1rem */
+  opacity: 0.8;
+}
+
+.header-text {
+  font-size: 0.8rem; /* Reduced from 0.875rem */
+  font-weight: 600;
+}
+
+.sort-icon {
+  font-size: 0.7rem; /* Reduced from 0.75rem */
+  opacity: 0.6;
+  margin-left: auto;
+}
+
+.data-table td {
+  padding: 0.625rem 1rem; /* Reduced from 1rem 1.5rem */
+  border-bottom: 1px solid #f1f5f9;
+  font-size: 0.8rem; /* Reduced from 0.875rem */
+  color: #374151;
+  transition: all 0.2s ease;
+  line-height: 1.4; /* Improved line height for better readability */
+}
+
+.data-table tbody tr:hover {
+  background: #f8fafc;
+  transform: scale(1.001);
+}
+
+.row-even {
+  background: #ffffff;
+}
+
+.row-odd {
+  background: #fafbfc;
+}
+
+/* Value-based cell styling */
+.table-cell {
+  position: relative;
+}
+
+.cell-excellent {
+  background: linear-gradient(
+    90deg,
+    rgba(16, 185, 129, 0.1) 0%,
+    transparent 100%
+  );
+  border-left: 3px solid #10b981;
+  font-weight: 600;
+  color: #047857;
+}
+
+.cell-good {
+  background: linear-gradient(
+    90deg,
+    rgba(59, 130, 246, 0.1) 0%,
+    transparent 100%
+  );
+  border-left: 3px solid #3b82f6;
+  font-weight: 600;
+  color: #1d4ed8;
+}
+
+.cell-average {
+  background: linear-gradient(
+    90deg,
+    rgba(245, 158, 11, 0.1) 0%,
+    transparent 100%
+  );
+  border-left: 3px solid #f59e0b;
+  font-weight: 600;
+  color: #d97706;
+}
+
+.cell-poor {
+  background: linear-gradient(
+    90deg,
+    rgba(239, 68, 68, 0.1) 0%,
+    transparent 100%
+  );
+  border-left: 3px solid #ef4444;
+  font-weight: 600;
+  color: #dc2626;
+}
+
+.cell-na {
+  color: #9ca3af;
+  font-style: italic;
+}
+
+/* Pagination - Made more compact */
+.pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem; /* Reduced from 1.5rem */
+  background: white;
+  border-top: 1px solid #e2e8f0;
+  border-radius: 0 0 1rem 1rem;
+  margin: 0 2rem 2rem 2rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  flex-shrink: 0;
+}
+
+.pagination-btn {
+  padding: 0.625rem 1.25rem; /* Reduced padding */
+  border: 2px solid #e2e8f0;
+  background: white;
+  color: #64748b;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 0.875rem; /* Added explicit font size */
+  transition: all 0.2s ease;
+}
+
+.pagination-btn:hover:not(:disabled) {
+  border-color: #667eea;
+  color: #667eea;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+}
+
+.pagination-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pagination-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.page-numbers {
+  display: flex;
+  gap: 0.375rem; /* Reduced from 0.5rem */
+}
+
+.page-btn {
+  width: 2.25rem; /* Reduced from 2.5rem */
+  height: 2.25rem; /* Reduced from 2.5rem */
+  border: 2px solid #e2e8f0;
+  background: white;
+  color: #64748b;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 0.8rem; /* Added explicit font size */
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.page-btn:hover {
+  border-color: #667eea;
+  color: #667eea;
+  transform: translateY(-1px);
+}
+
+.page-btn.active {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-color: #667eea;
+  color: white;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.pagination-text {
+  font-size: 0.8rem; /* Reduced from 0.875rem */
+  color: #64748b;
+  font-weight: 500;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .table-header {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .table-controls {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: stretch;
+  }
+
+  .search-container {
+    max-width: none;
+  }
+
+  .pagination {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .pagination-info {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .table-container {
+    width: 100%;
+    height: 90vh;
+  }
+
+  .table-header,
+  .table-controls,
+  .pagination {
+    padding: 1rem;
+  }
+
+  .table-wrapper {
+    margin: 0 1rem;
+  }
+
+  .data-table th,
+  .data-table td {
+    padding: 0.5rem 0.75rem; /* Further reduced for mobile */
+    font-size: 0.75rem; /* Further reduced for mobile */
+  }
+
+  .header-content {
+    flex-direction: column;
+    gap: 0.25rem;
+    text-align: center;
+  }
+
+  .table-title {
+    font-size: 1.5rem;
+  }
+
+  /* Make table horizontally scrollable on mobile */
+  .table-wrapper {
+    overflow-x: auto;
+  }
+
+  .data-table {
+    min-width: 1200px;
+  }
+}
+
+/* Smooth transitions */
+* {
+  transition: all 0.2s ease;
+}
+
+/* Custom scrollbar */
+.table-container::-webkit-scrollbar,
+.table-wrapper::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.table-container::-webkit-scrollbar-track,
+.table-wrapper::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+.table-container::-webkit-scrollbar-thumb,
+.table-wrapper::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+.table-container::-webkit-scrollbar-thumb:hover,
+.table-wrapper::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Loading animation for smooth interactions */
+@keyframes shimmer {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.data-table tbody tr:hover td {
+  animation: shimmer 0.3s ease-in-out;
+}

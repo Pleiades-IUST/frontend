@@ -8,19 +8,20 @@
     -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
-/* Header Section */
+/* Enhanced Header Section */
 .charts-header {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr auto auto auto;
+  gap: 2rem;
   align-items: flex-start;
-  padding: 2rem 2rem 1rem 2rem;
+  padding: 2rem;
   background: white;
   border-bottom: 1px solid #e2e8f0;
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
 }
 
 .session-info {
-  flex: 1;
+  min-width: 200px;
 }
 
 .charts-title {
@@ -40,13 +41,65 @@
   font-size: 1rem;
 }
 
+/* Session Overview Cards */
+.session-overview {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  min-width: 140px;
+}
+
+.overview-card {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  border-radius: 0.75rem;
+  border: 1px solid #e2e8f0;
+  transition: all 0.2s ease;
+}
+
+.overview-card:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.overview-icon {
+  font-size: 1.5rem;
+  opacity: 0.8;
+}
+
+.overview-content {
+  flex: 1;
+}
+
+.overview-label {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #64748b;
+  margin-bottom: 0.25rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.overview-value {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #1a202c;
+  line-height: 1;
+}
+
+/* Technology Summary */
 .technology-summary {
   display: flex;
   align-items: center;
+  min-width: 280px;
 }
 
 .tech-pie-container {
   text-align: center;
+  width: 100%;
 }
 
 .pie-title {
@@ -57,8 +110,8 @@
 }
 
 .pie-legend {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 0.5rem;
   margin-top: 1rem;
 }
@@ -80,6 +133,63 @@
   font-size: 0.875rem;
   color: #64748b;
   white-space: nowrap;
+}
+
+/* Quick Stats */
+.quick-stats {
+  min-width: 160px;
+}
+
+.quick-stats-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #374151;
+  margin: 0 0 1rem 0;
+}
+
+.quick-stats-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.quick-stat {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 0.5rem;
+  color: white;
+  transition: all 0.2s ease;
+}
+
+.quick-stat:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+.quick-stat-icon {
+  font-size: 1.25rem;
+  opacity: 0.9;
+}
+
+.quick-stat-content {
+  flex: 1;
+}
+
+.quick-stat-value {
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 0.1rem;
+}
+
+.quick-stat-label {
+  font-size: 0.7rem;
+  opacity: 0.8;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 /* No Data State */
@@ -279,112 +389,3 @@
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(10px);
   border: 1px solid #e2e8f0;
-  border-radius: 0.75rem;
-  padding: 1rem;
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.25);
-  font-size: 0.875rem;
-  min-width: 200px;
-}
-
-.tooltip-time {
-  font-weight: 600;
-  color: #1a202c;
-  margin: 0 0 0.5rem 0;
-  padding-bottom: 0.5rem;
-  border-bottom: 1px solid #e2e8f0;
-}
-
-.tooltip-value {
-  font-weight: 600;
-  color: #3b82f6;
-  margin: 0.25rem 0;
-}
-
-.tooltip-tech,
-.tooltip-location,
-.tooltip-signal {
-  color: #64748b;
-  margin: 0.25rem 0;
-  font-size: 0.8rem;
-}
-
-/* Responsive Design */
-@media (max-width: 1024px) {
-  .charts-header {
-    flex-direction: column;
-    gap: 2rem;
-  }
-
-  .technology-summary {
-    align-self: center;
-  }
-
-  .tabs-navigation {
-    flex-wrap: wrap;
-  }
-
-  .stats-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 768px) {
-  .charts-container {
-    height: 90vh; /* Adjust for mobile */
-  }
-
-  .charts-header {
-    padding: 1rem;
-  }
-
-  .tabs-container {
-    padding: 0 1rem 1rem 1rem;
-    height: calc(100% - 80px); /* Adjust for smaller header on mobile */
-  }
-
-  .tab-button {
-    padding: 0.75rem 1rem;
-    font-size: 0.875rem;
-  }
-
-  .tab-icon {
-    font-size: 1rem;
-  }
-
-  .chart-wrapper {
-    padding: 1rem;
-  }
-
-  .stat-card {
-    flex-direction: column;
-    text-align: center;
-    gap: 0.5rem;
-  }
-
-  .charts-title {
-    font-size: 1.5rem;
-  }
-}
-
-/* Smooth transitions */
-* {
-  transition: all 0.2s ease;
-}
-
-/* Custom scrollbar */
-.charts-container::-webkit-scrollbar {
-  width: 8px;
-}
-
-.charts-container::-webkit-scrollbar-track {
-  background: #f1f5f9;
-}
-
-.charts-container::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
-  border-radius: 4px;
-}
-
-.charts-container::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
-}
