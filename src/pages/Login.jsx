@@ -66,9 +66,7 @@ export default function Login() {
               </svg>
             </span>
           </h1>
-          <p className="login-subtitle">
-            Step into the future of authentication
-          </p>
+          <p className="login-subtitle">Log In to get started</p>
         </div>
 
         {/* Error message with animation */}
