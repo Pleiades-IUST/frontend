@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AuthContext from '@/contexts/AuthContext';
+import './Login.css';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -8,132 +9,144 @@ export default function Login() {
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
   const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
+    setIsLoading(true);
 
-    const success = await login({ email, password });
+    // Add a slight delay for the loading animation
+    setTimeout(async () => {
+      const success = await login({ email, password });
+      setIsLoading(false);
 
-    if (success) {
-      navigate('/');
-    } else {
-      setError('Invalid username or password');
-    }
+      if (success) {
+        navigate('/');
+      } else {
+        setError('Invalid username or password');
+      }
+    }, 1200);
   };
 
   return (
-    <div style={styles.fullScreenContainer}>
-      <div style={styles.loginBox}>
-        <h2 style={styles.heading}>Welcome Back 👋</h2>
-        <p style={styles.subheading}>Please log in to your account</p>
+    <div className="login-container">
+      {/* Animated background elements */}
+      <div className="bg-orb orb-1"></div>
+      <div className="bg-orb orb-2"></div>
+      <div className="bg-orb orb-3"></div>
+      <div className="floating-shapes">
+        <div className="shape shape-1"></div>
+        <div className="shape shape-2"></div>
+        <div className="shape shape-3"></div>
+        <div className="shape shape-4"></div>
+      </div>
 
-        {error && <div style={styles.errorBox}>{error}</div>}
+      <div className="login-card">
+        <div className="card-glow"></div>
 
-        <form onSubmit={handleSubmit} style={styles.form}>
-          <input
-            type="text"
-            placeholder="Username"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            style={styles.input}
-          />
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            style={styles.input}
-          />
-          <button type="submit" style={styles.button}>
-            Log In
+        {/* Header with animated icon */}
+        <div className="login-header">
+          <h1 className="login-title">
+            Welcome Back
+            <span className="wave-hand">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M7 13L10 16L17 9"
+                  stroke="green"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <circle cx="12" cy="12" r="10" stroke="green" strokeWidth="2" />
+              </svg>
+            </span>
+          </h1>
+          <p className="login-subtitle">
+            Step into the future of authentication
+          </p>
+        </div>
+
+        {/* Error message with animation */}
+        {error && (
+          <div className="error-message">
+            <div className="error-icon">⚠️</div>
+            <span>{error}</span>
+          </div>
+        )}
+
+        {/* Form */}
+        <form onSubmit={handleSubmit} className="login-form">
+          <div className="input-group">
+            <div className="input-wrapper">
+              <input
+                type="username"
+                placeholder=" "
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="modern-input"
+                required
+              />
+              <label className="input-label">Email Address</label>
+              <div className="input-border"></div>
+            </div>
+          </div>
+
+          <div className="input-group">
+            <div className="input-wrapper">
+              <input
+                type="password"
+                placeholder=" "
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="modern-input"
+                required
+              />
+              <label className="input-label">Password</label>
+              <div className="input-border"></div>
+            </div>
+          </div>
+
+          <button
+            type="submit"
+            className={`login-button ${isLoading ? 'loading' : ''}`}
+            disabled={isLoading}
+          >
+            <span className="button-text">
+              {isLoading ? 'Authenticating...' : 'Sign In'}
+            </span>
+            <div className="button-loader">
+              <div className="loader-ring"></div>
+            </div>
+            <div className="button-glow"></div>
           </button>
         </form>
-        <p style={styles.text}>
-          Don't have an account?{' '}
-          <span style={styles.link} onClick={() => navigate('/signup')}>
-            Sign Up
-          </span>
-        </p>
+
+        {/* Footer */}
+        <div className="login-footer">
+          <p className="signup-text">
+            New to our platform?{' '}
+            <span className="signup-link" onClick={() => navigate('/signup')}>
+              Create Account
+              <svg
+                className="link-arrow"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            </span>
+          </p>
+        </div>
       </div>
     </div>
   );
 }
-
-const styles = {
-  fullScreenContainer: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: '100vh',
-    width: '100vw',
-    backgroundColor: '#edf2f7',
-  },
-  loginBox: {
-    backgroundColor: '#fff',
-    padding: '2.5rem',
-    borderRadius: '12px',
-    boxShadow: '0 8px 30px rgba(0, 0, 0, 0.05)',
-    width: '100%',
-    maxWidth: '420px',
-    transition: 'box-shadow 0.3s ease-in-out',
-  },
-  heading: {
-    textAlign: 'center',
-    marginBottom: '0.5rem',
-    fontSize: '1.75rem',
-    fontWeight: '600',
-    color: '#2d3748',
-  },
-  subheading: {
-    textAlign: 'center',
-    marginBottom: '1.5rem',
-    fontSize: '0.95rem',
-    color: '#718096',
-  },
-  form: {
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  input: {
-    padding: '0.75rem',
-    marginBottom: '1rem',
-    border: '1px solid #cbd5e0',
-    borderRadius: '6px',
-    fontSize: '1rem',
-    outline: 'none',
-    transition: 'border-color 0.2s',
-  },
-  button: {
-    padding: '0.75rem',
-    backgroundColor: '#3182ce',
-    color: '#fff',
-    border: 'none',
-    borderRadius: '6px',
-    fontSize: '1rem',
-    fontWeight: '500',
-    cursor: 'pointer',
-    transition: 'background-color 0.2s ease-in-out',
-  },
-  text: {
-    textAlign: 'center',
-    marginTop: '1.5rem',
-    fontSize: '0.95rem',
-    color: '#4a5568',
-  },
-  link: {
-    color: '#3182ce',
-    cursor: 'pointer',
-    textDecoration: 'underline',
-  },
-  errorBox: {
-    backgroundColor: '#ffe5e5',
-    color: '#b00020',
-    border: '1px solid #f5c2c2',
-    padding: '0.75rem 1rem',
-    borderRadius: '6px',
-    marginBottom: '1rem',
-    fontSize: '0.95rem',
-    textAlign: 'center',
-  },
-};
