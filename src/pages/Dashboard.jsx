@@ -59,8 +59,13 @@ function Dashboard() {
 
   // Fetch list of drives
   useEffect(() => {
+    const token = localStorage.getItem('token');
     axios
-      .get('http://localhost:8080/drive/all')
+      .get('http://localhost:8080/drive/all', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((response) => {
         const data = response.data;
         setSessions(data);
@@ -75,18 +80,23 @@ function Dashboard() {
   useEffect(() => {
     if (!selectedSessionId) return;
 
+    const token = localStorage.getItem('token');
     axios
-      .post('http://localhost:8080/drive/signals', {
-        drive_id: selectedSessionId,
-      })
+      .post(
+        'http://localhost:8080/drive/signals',
+        { drive_id: selectedSessionId },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
       .then((response) => {
         const data = response.data;
-
         const transformed = data.map((item) => ({
           id: item.id,
           lat: item.latitude ?? 35.735069274902344,
           lng: item.longitude ?? 51.52555465698242,
-          // Keep original values for filtering
           rsrp: item.rsrp,
           rsrq: item.rsrq,
           signal_strength: item.signal_strength,
@@ -99,7 +109,6 @@ function Dashboard() {
           tac_lac: item.tac,
           pci: item.pci,
           plmn_id: item.plmn_id,
-          // Keep formatted versions for display
           rsrp_rscp: item.rsrp ? `${item.rsrp} dbm` : 'N/A',
           rsrq_ecn0: `${item.rsrq} dB`,
           dns_lookup_time: item.dns_lookup_time,
