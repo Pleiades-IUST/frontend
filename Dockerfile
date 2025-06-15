@@ -1,3 +1,6 @@
+# For build: sudo docker build -t parvin_front .
+# For run: sudo docker run --rm -it --name parvin_front -p 80:80 parvin_front:latest
+
 # Build stage
 FROM node:alpine AS builder
 
