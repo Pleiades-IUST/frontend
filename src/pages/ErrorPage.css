@@ -1,0 +1,357 @@
+/* Error Page Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.error-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #1e1b4b, #1e3a8a, #312e81);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.background-gradient {
+  position: absolute;
+  inset: 0;
+  opacity: 0.3;
+  pointer-events: none;
+  transition: all 0.3s ease;
+}
+
+.particle {
+  position: absolute;
+  border-radius: 50%;
+  background: white;
+  pointer-events: none;
+}
+
+.geometric-shape-1 {
+  position: absolute;
+  top: 80px;
+  left: 80px;
+  width: 96px;
+  height: 96px;
+  border: 2px solid rgba(168, 85, 247, 0.15);
+  transform: rotate(45deg);
+  animation: spin 20s linear infinite;
+}
+
+.geometric-shape-2 {
+  position: absolute;
+  bottom: 80px;
+  right: 80px;
+  width: 80px;
+  height: 80px;
+  border: 2px solid rgba(59, 130, 246, 0.15);
+  transform: rotate(12deg);
+  animation: bounce 2s infinite;
+}
+
+.main-content {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  padding: 0 2rem;
+  max-width: 64rem;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.title-404 {
+  font-size: 12rem;
+  font-weight: 900;
+  background: linear-gradient(45deg, #f472b6, #a855f7, #3b82f6);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin-bottom: 2rem;
+  text-shadow:
+    0 0 40px rgba(168, 85, 247, 0.5),
+    0 0 80px rgba(168, 85, 247, 0.3);
+  filter: drop-shadow(0 0 20px rgba(168, 85, 247, 0.7));
+  animation: pulse 2s infinite;
+  line-height: 1;
+}
+
+.title-404-shadow {
+  position: absolute;
+  inset: 0;
+  font-size: 12rem;
+  font-weight: 900;
+  color: rgba(168, 85, 247, 0.2);
+  filter: blur(4px);
+  animation: pulse 2s infinite;
+  animation-delay: 0.5s;
+  line-height: 1;
+}
+
+.error-icon-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.error-icon {
+  position: relative;
+}
+
+.error-icon-main {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  background: linear-gradient(45deg, #ef4444, #ec4899);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: bounce 2s infinite;
+  color: white;
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+
+.error-icon-ping {
+  position: absolute;
+  inset: 0;
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  background: linear-gradient(45deg, #ef4444, #ec4899);
+  opacity: 0.5;
+  animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+.main-title {
+  font-size: 4rem;
+  font-weight: bold;
+  color: white;
+  margin-bottom: 1rem;
+  background: linear-gradient(45deg, #fbbf24, #ec4899, #8b5cf6);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.subtitle {
+  font-size: 1.5rem;
+  color: #d1d5db;
+  line-height: 1.6;
+  max-width: 48rem;
+  margin: 0 auto 2rem auto;
+}
+
+.subtitle-highlight {
+  color: #c084fc;
+}
+
+.buttons-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.action-button {
+  position: relative;
+  padding: 1rem 2rem;
+  border-radius: 9999px;
+  color: white;
+  font-weight: 600;
+  font-size: 1.125rem;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.action-button:hover {
+  transform: scale(1.1);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+.button-home {
+  background: linear-gradient(45deg, #8b5cf6, #3b82f6);
+}
+
+.button-home:hover {
+  box-shadow: 0 25px 50px -12px rgba(139, 92, 246, 0.25);
+}
+
+.button-retry {
+  background: linear-gradient(45deg, #ec4899, #8b5cf6);
+}
+
+.button-retry:hover {
+  box-shadow: 0 25px 50px -12px rgba(236, 72, 153, 0.25);
+}
+
+.button-back {
+  background: linear-gradient(45deg, #4f46e5, #8b5cf6);
+}
+
+.button-back:hover {
+  box-shadow: 0 25px 50px -12px rgba(79, 70, 229, 0.25);
+}
+
+.button-overlay {
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.action-button:hover .button-overlay {
+  opacity: 0.2;
+}
+
+.button-home .button-overlay {
+  background: linear-gradient(45deg, #a78bfa, #60a5fa);
+}
+
+.button-retry .button-overlay {
+  background: linear-gradient(45deg, #f472b6, #a78bfa);
+}
+
+.button-back .button-overlay {
+  background: linear-gradient(45deg, #6366f1, #a78bfa);
+}
+
+.fun-fact {
+  margin-top: 3rem;
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border-radius: 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  max-width: 36rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.fun-fact-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.75rem;
+}
+
+.fun-fact-icon {
+  color: #fbbf24;
+  margin-right: 0.5rem;
+  font-size: 1.25rem;
+}
+
+.fun-fact-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: white;
+}
+
+.fun-fact-text {
+  color: #d1d5db;
+  text-align: center;
+  font-size: 0.875rem;
+}
+
+.refresh-spin {
+  animation: spin 2s linear infinite;
+}
+
+/* Responsive Design */
+@media (min-width: 640px) {
+  .buttons-container {
+    flex-direction: row;
+  }
+}
+
+@media (max-width: 768px) {
+  .title-404,
+  .title-404-shadow {
+    font-size: 8rem;
+  }
+
+  .main-title {
+    font-size: 3rem;
+  }
+
+  .subtitle {
+    font-size: 1.25rem;
+  }
+
+  .geometric-shape-1,
+  .geometric-shape-2 {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .title-404,
+  .title-404-shadow {
+    font-size: 6rem;
+  }
+
+  .main-title {
+    font-size: 2.5rem;
+  }
+
+  .subtitle {
+    font-size: 1rem;
+  }
+
+  .action-button {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+  }
+}
+
+/* Animations */
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+    animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+  }
+  50% {
+    transform: translateY(-25%);
+    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+@keyframes ping {
+  75%,
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
