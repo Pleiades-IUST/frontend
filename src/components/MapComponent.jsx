@@ -48,13 +48,31 @@ const formatValue = (value, key) => {
   }
 };
 
-const generateHslPalette = (uniqueValues) => {
-  const n = uniqueValues.length;
+// Fixed function to generate consistent colors based on value hash
+const generateConsistentColorMap = (uniqueValues) => {
   const colorMap = {};
-  uniqueValues.forEach((val, i) => {
-    const hue = Math.round((i * 360) / n);
-    colorMap[val] = `hsl(${hue}, 70%, 50%)`;
+
+  // Sort values to ensure consistent ordering
+  const sortedValues = [...uniqueValues].sort();
+
+  sortedValues.forEach((val, i) => {
+    // Create a simple hash of the value to ensure consistency
+    let hash = 0;
+    const str = String(val);
+    for (let j = 0; j < str.length; j++) {
+      const char = str.charCodeAt(j);
+      hash = (hash << 5) - hash + char;
+      hash = hash & hash; // Convert to 32-bit integer
+    }
+
+    // Use the hash to generate a consistent hue
+    const hue = Math.abs(hash) % 360;
+    const saturation = 70;
+    const lightness = 50;
+
+    colorMap[val] = `hsl(${hue}, ${saturation}%, ${lightness}%)`;
   });
+
   return colorMap;
 };
 
@@ -81,10 +99,10 @@ const PointsLayer = ({ points, valueKey, discrete, normalizeKey }) => {
             .filter((v) => v != null && v !== undefined)
         ),
       ];
-      return generateHslPalette(uniqueValues);
+      return generateConsistentColorMap(uniqueValues);
     }
     return null;
-  }, [points, valueKey, discrete]);
+  }, [points, valueKey, discrete, normalizeKey]);
 
   const { min, max } = useMemo(() => {
     if (discrete) return {};
@@ -114,10 +132,10 @@ const PointsLayer = ({ points, valueKey, discrete, normalizeKey }) => {
     }
 
     return { min: minValue, max: maxValue };
-  }, [points, valueKey, discrete]);
+  }, [points, valueKey, discrete, normalizeKey]);
 
   const getColorForValue = (val) => {
-    if (discrete) return colorMap[val] || '#000';
+    if (discrete) return colorMap[val] || '#888';
 
     // Handle null values
     if (val === null || val === undefined) return '#888';

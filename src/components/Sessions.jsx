@@ -32,7 +32,16 @@ const Sessions = ({ sessions, selectedSessionId, setSession }) => {
                 </div>
                 <div className="session-meta">
                   <div className="meta-icon">🕒</div>
-                  <span className="session-date">{session.created_at}</span>
+                  <span className="session-date">
+                    {new Date(session.created_at).toLocaleString('en-GB', {
+                      timeZone: 'Asia/Tehran',
+                      year: 'numeric',
+                      month: 'short',
+                      day: 'numeric',
+                      hour: '2-digit',
+                      minute: '2-digit',
+                    })}
+                  </span>
                 </div>
               </div>
               <div className="session-glow"></div>

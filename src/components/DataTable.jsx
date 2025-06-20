@@ -6,7 +6,7 @@ const DataTable = ({ data }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(25);
-
+  console.log(data);
   // Sort data
   const sortedData = useMemo(() => {
     if (!data) return [];
@@ -84,7 +84,16 @@ const DataTable = ({ data }) => {
 
     switch (key) {
       case 'record_time':
-        return new Date(value).toLocaleString();
+        const localTehranTime = value.replace(/Z$/, '');
+        const date = new Date(localTehranTime);
+        return date.toLocaleString('en-GB', {
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit',
+        });
+
       case 'lat':
       case 'lng':
         return value.toFixed(6);
@@ -137,6 +146,7 @@ const DataTable = ({ data }) => {
     { key: 'rsrq_ecn0', label: 'RSRQ', icon: '📶' },
     { key: 'tac_lac', label: 'TAC', icon: '🏷️' },
     { key: 'cellid', label: 'Cell ID', icon: '📍' },
+    { key: 'plmn_id', label: 'PLMN ID', icon: '📱' },
     { key: 'signal_strength', label: 'Signal Strength', icon: '📡' },
     { key: 'download_rate', label: 'Download Rate', icon: '📥' },
     { key: 'upload_rate', label: 'Upload Rate', icon: '📤' },

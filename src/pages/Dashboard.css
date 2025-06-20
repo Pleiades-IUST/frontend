@@ -1,4 +1,4 @@
-/* Dashboard.css - Enriched Light Theme */
+/* Dashboard.css - Enriched Light Theme with Beautiful Active Tabs */
 * {
   margin: 0;
   padding: 0;
@@ -44,53 +44,67 @@ html,
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  padding: 0 2.5rem; /* Increased padding */
-  height: 7vh; /* Slightly taller for more presence */
-  border-bottom: 1px solid #e9ecef; /* A slightly darker, crisp border */
-  background-color: #fefeff; /* Almost white, but distinct from content area */
-  border-top-left-radius: 16px; /* Match container rounded corners */
+  padding: 0 1.5rem;
+  height: 60px; /* Fixed height instead of vh */
+  border-bottom: 1px solid #e2e8f0;
+  background-color: #fafbfc;
+  border-top-left-radius: 16px;
   border-top-right-radius: 16px;
   flex-shrink: 0;
+  gap: 0.5rem; /* Space between tabs */
 }
 
 /* Individual Tab Trigger (Tab Button) */
 .dashboard-tab-trigger {
-  padding: 1rem 1.8rem; /* More generous padding */
-  font-size: 1.05rem; /* Slightly larger font */
+  padding: 0.75rem 1.5rem; /* Proper padding for content */
+  font-size: 0.95rem; /* Consistent font size */
   font-weight: 600;
-  color: #778899; /* A professional slate grey for default tabs */
+  color: #64748b; /* A professional slate grey for default tabs */
   cursor: pointer;
   background-color: transparent;
   border: none;
-  border-radius: 10px; /* More rounded */
-  transition: all 0.3s ease;
+  border-radius: 8px; /* Moderate rounding */
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Smooth, elegant transition */
   position: relative;
-  overflow: hidden;
+  margin-right: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px; /* Consistent height */
+  white-space: nowrap;
 }
 
-.dashboard-tab-trigger:hover {
-  color: #4682b4; /* Steel blue on hover for a calming effect */
-  background-color: #e6f0f7; /* Soft blue on hover background */
+/* Hover effect for inactive tabs */
+.dashboard-tab-trigger:hover:not([data-selected]):not(
+    [data-state='active']
+  ):not([aria-selected='true']):not(.active) {
+  color: #3b82f6; /* Blue on hover */
+  background-color: #f1f5f9;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.1);
 }
 
-.dashboard-tab-trigger[data-state='active'] {
-  color: #007bff; /* Primary blue for active tab (unchanged, good contrast) */
-  background-color: #ffffff; /* White background for active tab */
-  box-shadow: 0 -3px 10px rgba(0, 0, 0, 0.04); /* More subtle active tab shadow */
-  border-bottom: 3px solid #007bff; /* Highlight active tab with a blue line */
-  border-radius: 10px 10px 0 0; /* Match new rounding */
-  transform: translateY(-3px); /* Slightly more pronounced lift */
-  z-index: 1;
+/* Active Tab Styling - Multiple selectors to ensure it works */
+.dashboard-tab-trigger[data-selected='true'],
+.dashboard-tab-trigger[data-state='active'],
+.dashboard-tab-trigger[aria-selected='true'],
+.dashboard-tab-trigger.active {
+  color: #ffffff !important;
+  background-color: #3b82f6 !important;
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.25) !important;
+  transform: translateY(-3px) !important;
+  position: relative;
+  z-index: 5;
 }
 
 /* Tabs Content Area */
 .dashboard-tab-content {
   flex: 1;
-  padding: 2rem; /* Increased padding for content */
+  padding: 2rem;
   overflow-y: auto;
   overflow-x: hidden;
-  height: calc(100% - 7vh); /* Height of content area minus tabs list height */
-  background-color: #ffffff; /* Ensure content background is white */
+  height: calc(100% - 60px); /* Fixed height calculation */
+  background-color: #ffffff;
 }
 
 /* Flex container for Map and Filters within the Map tab */
@@ -161,15 +175,19 @@ html,
   }
 
   .dashboard-tab-trigger {
-    padding: 0.7rem 1.2rem;
-    font-size: 0.95rem;
-    margin: 0.3rem;
-    border-radius: 8px;
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
+    margin: 0.2rem;
+    border-radius: 6px;
+    min-height: 36px;
   }
 
-  .dashboard-tab-trigger[data-state='active'] {
-    transform: none;
-    border-bottom: 2px solid #007bff; /* Slightly thinner active border */
+  .dashboard-tab-trigger[data-selected='true'],
+  .dashboard-tab-trigger[data-state='active'],
+  .dashboard-tab-trigger[aria-selected='true'],
+  .dashboard-tab-trigger.active {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.2) !important;
   }
 
   .dashboard-tab-content {
@@ -206,17 +224,15 @@ html,
     margin: 0.5rem;
   }
   .dashboard-tab-trigger {
-    font-size: 0.8rem;
-    padding: 0.6rem 1rem;
+    font-size: 0.85rem;
+    padding: 0.5rem 0.9rem;
+    min-height: 32px;
   }
   .dashboard-tab-content {
-    /* padding: 1rem; */
     flex: 1;
-    padding: 2rem; /* Increased padding for content */
-    overflow: hidden; /* Change from overflow-y: auto; and overflow-x: hidden; */
-    height: calc(
-      100% - 7vh
-    ); /* Height of content area minus tabs list height */
-    background-color: #ffffff; /* Ensure content background is white */
+    padding: 1rem;
+    overflow: hidden;
+    height: calc(100% - 60px);
+    background-color: #ffffff;
   }
 }

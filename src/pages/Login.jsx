@@ -89,7 +89,7 @@ export default function Login() {
                 className="modern-input"
                 required
               />
-              <label className="input-label">Email Address</label>
+              <label className="input-label">Username</label>
               <div className="input-border"></div>
             </div>
           </div>
