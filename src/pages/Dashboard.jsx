@@ -61,7 +61,7 @@ function Dashboard() {
   useEffect(() => {
     const token = localStorage.getItem('token');
     axios
-      .get('http://localhost:8080/drive/all', {
+      .get('http://103.75.197.188:8080/drive/all', {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -83,7 +83,7 @@ function Dashboard() {
     const token = localStorage.getItem('token');
     axios
       .post(
-        'http://localhost:8080/drive/signals',
+        'http://103.75.197.188:8080/drive/signals',
         { drive_id: selectedSessionId },
         {
           headers: {

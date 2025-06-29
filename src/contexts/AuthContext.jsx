@@ -18,7 +18,7 @@ export function AuthProvider({ children }) {
 
   const login = async ({ email, password }) => {
     try {
-      const res = await fetch('http://localhost:8080/auth/login', {
+      const res = await fetch('http://103.75.197.188:8080/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username: email, password }),
@@ -42,7 +42,7 @@ export function AuthProvider({ children }) {
   const signup = async ({ email, username, password }) => {
     console.log({ email, username, password });
     try {
-      const res = await fetch('http://localhost:8080/auth/signup', {
+      const res = await fetch('http://103.75.197.188:8080/auth/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, username, password }),
