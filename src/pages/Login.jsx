@@ -29,6 +29,10 @@ export default function Login() {
     }, 1200);
   };
 
+  const handleDownloadAPK = () => {
+    window.open('http://103.75.197.188:8888/app-debug.apk', '_blank');
+  };
+
   return (
     <div className="login-container">
       {/* Animated background elements */}
@@ -40,6 +44,34 @@ export default function Login() {
         <div className="shape shape-2"></div>
         <div className="shape shape-3"></div>
         <div className="shape shape-4"></div>
+      </div>
+
+      {/* Download APK Button - positioned at top right */}
+      <div className="download-apk-container">
+        <button onClick={handleDownloadAPK} className="download-apk-button">
+          <div className="download-icon">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M12 2C13.1 2 14 2.9 14 4V12L15.5 10.5C15.9 10.1 16.5 10.1 16.9 10.5C17.3 10.9 17.3 11.5 16.9 11.9L12.7 16.1C12.3 16.5 11.7 16.5 11.3 16.1L7.1 11.9C6.7 11.5 6.7 10.9 7.1 10.5C7.5 10.1 8.1 10.1 8.5 10.5L10 12V4C10 2.9 10.9 2 12 2Z"
+                fill="currentColor"
+              />
+              <path
+                d="M3 19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19C21 17.9 20.1 17 19 17H5C3.9 17 3 17.9 3 19Z"
+                fill="currentColor"
+              />
+            </svg>
+          </div>
+          <div className="download-content">
+            <span className="download-title">Test Drive App</span>
+            <span className="download-subtitle">Download APK</span>
+          </div>
+          <div className="download-glow"></div>
+          <div className="download-ripple"></div>
+        </button>
       </div>
 
       <div className="login-card">
