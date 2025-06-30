@@ -6,7 +6,7 @@ const DataTable = ({ data }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(25);
-  console.log(data);
+  // console.log(data);
   // Sort data
   const sortedData = useMemo(() => {
     if (!data) return [];

@@ -40,7 +40,7 @@ export function AuthProvider({ children }) {
   };
 
   const signup = async ({ email, username, password }) => {
-    console.log({ email, username, password });
+    // console.log({ email, username, password });
     try {
       const res = await fetch('http://103.75.197.188:8080/auth/signup', {
         method: 'POST',

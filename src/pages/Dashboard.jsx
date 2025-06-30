@@ -17,6 +17,7 @@ function Dashboard() {
   const [driveData, setDriveData] = useState([]);
   const [discrete, setDiscrete] = useState(false);
   const [valueKey, setValueKey] = useState('rsrp');
+  const [csv, setCsv] = useState(null);
   const [filters, setFilters] = useState([
     { id: 'rsrp', label: 'Show RSRP (dBm)', checked: true, type: 'continuous' },
     { id: 'rsrq', label: 'Show RSRQ (dB)', checked: false, type: 'continuous' },
@@ -92,7 +93,13 @@ function Dashboard() {
         }
       )
       .then((response) => {
-        const data = response.data;
+        const data = response.data.signals;
+        let link = response.data.csv;
+        link = link.replace(
+          'http://localhost:8080',
+          'http://103.75.197.188:8080'
+        );
+        setCsv(link);
         const transformed = data.map((item) => ({
           id: item.id,
           lat: item.latitude ?? 35.735069274902344,
@@ -173,7 +180,7 @@ function Dashboard() {
           value="charts"
           className="dashboard-tab-content charts-tab-content"
         >
-          <Charts data={driveData} />
+          <Charts data={driveData} csv={csv} />
         </Tabs.Content>
 
         <Tabs.Content

@@ -10,13 +10,12 @@ import {
   PieChart,
   Pie,
   Cell,
-  Legend,
 } from 'recharts';
 import './Charts.css';
 
-const Charts = ({ data }) => {
+const Charts = ({ data, csv }) => {
+  console.log('hello', csv);
   const [activeTab, setActiveTab] = useState('download');
-
   // Process data for charts
   const chartData = useMemo(() => {
     if (!data || data.length === 0) return [];
@@ -156,7 +155,11 @@ const Charts = ({ data }) => {
       return (
         <div className="chart-tooltip">
           <p className="tooltip-time">{`Time: ${data.timestamp}`}</p>
-          <p className="tooltip-value">{`${tabs.find((t) => t.id === activeTab)?.label}: ${payload[0].value?.toFixed(2) || 'N/A'} ${getUnit(activeTab)}`}</p>
+          <p className="tooltip-value">{`${
+            tabs.find((t) => t.id === activeTab)?.label
+          }: ${payload[0].value?.toFixed(2) || 'N/A'} ${getUnit(
+            activeTab
+          )}`}</p>
           <p className="tooltip-tech">{`Technology: ${data.technology}`}</p>
           <p className="tooltip-location">{`Location: ${data.location}`}</p>
           {data.signal_strength && (
@@ -258,6 +261,17 @@ const Charts = ({ data }) => {
           <p className="session-details">
             {chartData.length} data points collected
           </p>
+          {/* CSV Download Button */}
+          {csv && (
+            <a
+              href={csv}
+              download="session_data.csv"
+              className="download-csv-button"
+            >
+              <span className="download-icon">📄</span>
+              Download CSV
+            </a>
+          )}
         </div>
 
         {/* Session Overview Cards */}
@@ -478,7 +492,9 @@ const Charts = ({ data }) => {
                     stroke="#64748b"
                     tick={{ fontSize: 12, fill: '#64748b' }}
                     label={{
-                      value: `${tabs.find((t) => t.id === activeTab)?.label} (${getUnit(activeTab)})`,
+                      value: `${
+                        tabs.find((t) => t.id === activeTab)?.label
+                      } (${getUnit(activeTab)})`,
                       angle: -90,
                       position: 'insideLeft',
                       style: {
