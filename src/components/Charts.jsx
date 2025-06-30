@@ -268,8 +268,7 @@ const Charts = ({ data, csv }) => {
               download="session_data.csv"
               className="download-csv-button"
             >
-              <span className="download-icon">📄</span>
-              Download CSV
+              📄 Download CSV
             </a>
           )}
         </div>
