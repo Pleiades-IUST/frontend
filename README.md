@@ -35,7 +35,7 @@ This project is a web-based dashboard designed to visualize and analyze network 
 
 1.  Clone the repository:
     ```sh
-    git clone [your-repo-url]
+    git clone https://github.com/Pleiades-IUST/frontend.git
     cd [your-project-directory]
     ```
 2.  Install dependencies:
