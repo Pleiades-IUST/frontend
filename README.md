@@ -1,12 +1,50 @@
-# React + Vite
+# Pleiades Network Performance Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Project Overview
 
-Currently, two official plugins are available:
+This project is a web-based dashboard designed to visualize and analyze network performance data collected during different sessions. Users can log in to view detailed metrics such as download/upload rates, signal strength, and latency through interactive charts, a searchable data table, and a geographical map.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## Expanding the ESLint configuration
+- **User Authentication**: Secure login and signup functionality to manage user access.
+- **Session Management**: A sidebar displays a list of available data collection sessions, allowing users to select and view data for a specific session.
+- **Interactive Dashboard**: The main interface is a multi-tab dashboard that includes:
+  - **Charts**: Dynamic line charts for visualizing performance metrics over time and a pie chart to show the distribution of different network technologies. Metrics displayed can include download rate, upload rate, ping, and SMS delivery time.
+  - **Data Table**: A searchable and paginated table that displays detailed session records. It supports sorting and custom formatting for better readability. The table also uses color-coding to indicate the quality of different metrics like download rate, ping, and signal strength.
+  - **Map**: A component to visualize data points on a map, allowing users to filter what is displayed based on continuous and discrete metrics.
+- **Data Filtering**: A dedicated filter sidebar allows users to select which performance metrics they want to visualize on the dashboard.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Technologies Used
+
+- **Frontend**:
+  - React
+  - Chakra UI: Likely used for styling and components.
+  - Recharts: Used for creating the line and pie charts.
+  - Axios: A library for making API requests to fetch session and drive data.
+- **Backend**: The application interacts with a backend server for authentication and data retrieval.
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js
+- NPM
+- A running backend server that provides the necessary API endpoints.
+
+### Installation
+
+1.  Clone the repository:
+    ```sh
+    git clone [your-repo-url]
+    cd [your-project-directory]
+    ```
+2.  Install dependencies:
+    ```sh
+    npm install
+    ```
+3.  Start the development server:
+    ```sh
+    npm run dev
+    ```
+
+The application should now be running at `http://localhost:5173`.
